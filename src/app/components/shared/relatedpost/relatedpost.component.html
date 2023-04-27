@@ -1,0 +1,39 @@
+<div class="section section-padding">
+    <h4>Related Posts</h4>
+    <div class="row">
+        <div class="col-md-6 masonry-item" *ngFor="let item of blog | slice:0:2">
+            <article class="post single">
+                <div class="post-thumbnail">
+                    <a routerLink="/blog-single/{{item.id}}"><img [src]="item.gridimg" [alt]="item.title"></a>
+                </div>
+                <div class="post-body">
+                    <div class="post-author" *ngFor="let author of getAuthor(item.author)">
+                        <img [src]="author.img" [alt]="author.name">
+                        <div class="post-author-body">
+                            <p> <a routerLink="/blog/author/{{author.id}}">{{author.name}}</a> </p>
+                            <span class="post-date">{{item.postdate}}</span>
+                        </div>
+                    </div>
+                    <h5 class="post-title"> <a routerLink="/blog-single/{{item.id}}">{{item.title}}</a> </h5>
+                    <p class="post-text">
+                        {{item.text | slice:0:75}}
+                    </p>
+                    <div class="post-controls">
+                        <a routerLink="/blog-single/{{item.id}}" class="btn-custom secondary btn-sm">Read More</a>
+                        <div class="post-comment-authors" *ngIf="item.totalcomment">
+                            <span>Comments by: </span>
+                            <div class="post-comment-authors-img">
+                                <a routerLink="/" *ngFor="let item of item.usercomment"> <img [src]="item.img"
+                                        alt="comment author"> </a>
+                                <a routerLink="/"> +{{item.totalcomment}} </a>
+                            </div>
+                        </div>
+                        <div class="post-comment-authors" *ngIf="!item.totalcomment">
+                            <span>0 Comments</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</div>

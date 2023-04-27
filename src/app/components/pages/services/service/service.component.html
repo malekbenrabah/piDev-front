@@ -1,0 +1,20 @@
+<!-- Icon Block Start -->
+<div class="section infographics-2 light-bg bg-norepeat bg-bottom" style="background-image: url('assets/img/misc/bldg.png')">
+    <div class="container">
+        <div class="section-title-wrap section-header">
+            <h5 class="custom-primary">Services</h5>
+            <h2 class="title">You Need It, We Got It</h2>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6" *ngFor="let item of serviceblock">
+                <div class="acr-infographic-item">
+                    <i class="flaticon-{{item.icon}}"></i>
+                    <h5>{{item.title}}</h5>
+                    <p>{{item.text}}</p>
+                    <a href="#"> <span>Get Started</span> <i class="fas fa-chevron-right"></i> </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Icon Block End -->

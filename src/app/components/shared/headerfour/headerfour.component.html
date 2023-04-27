@@ -1,0 +1,57 @@
+<!-- Aside (Mobile Navigation) -->
+<aside class="main-aside" [ngClass]="navmethod ? '' : 'open'">
+    <div class="aside-title">
+        <div class="aside-controls aside-trigger">
+            <h4>Menu</h4>
+            <div class="close-btn close-dark" (click)="toggleNav()">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <app-mobilemenu></app-mobilemenu>
+</aside>
+<div class="aside-overlay aside-trigger" (click)="toggleNav()"></div>
+<!-- Header Start -->
+<header class="main-header">
+    <!-- Top Header Start -->
+    <div class="top-header">
+        <div class="container">
+            <div class="top-header-inner">
+                <ul class="social-media">
+                    <li> <a routerLink="/"> <i class="fab fa-facebook-f"></i> </a> </li>
+                    <li> <a routerLink="/"> <i class="fab fa-pinterest-p"></i> </a> </li>
+                    <li> <a routerLink="/"> <i class="fab fa-linkedin-in"></i> </a> </li>
+                    <li> <a routerLink="/"> <i class="fab fa-twitter"></i> </a> </li>
+                </ul>
+                <ul class="top-header-nav">
+                    <li> <a routerLink="/login"> Login</a> </li>
+                    <li>or</li>
+                    <li> <a routerLink="/register"> Signup</a> </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- Top Header End -->
+    <nav class="navbar">
+        <div class="container">
+            <app-menu></app-menu>
+            <div class="header-controls">
+                <ul class="header-controls-inner d-none d-lg-flex">
+                    <li>
+                        <a routerLink="/submit-listing" class="btn-custom primary">Submit Listing 
+                            <i class="fas fa-plus"></i> 
+                        </a>
+                    </li>
+                </ul>
+                <!-- Toggler -->
+                <div class="aside-toggler aside-trigger" (click)="toggleNav()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<!-- Header End -->

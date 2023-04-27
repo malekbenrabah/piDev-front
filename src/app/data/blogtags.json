@@ -1,0 +1,34 @@
+[
+    {
+        "id":1,
+        "title":"House"
+    },
+    {
+        "id":2,
+        "title":"Real Estate"
+    },
+    {
+        "id":3,
+        "title":"Building"
+    },
+    {
+        "id":4,
+        "title":"Agency"
+    },
+    {
+        "id":5,
+        "title":"Family"
+    },
+    {
+        "id":6,
+        "title":"Acres"
+    },
+    {
+        "id":7,
+        "title":"Baths"
+    },
+    {
+        "id":8,
+        "title":"Rooms"
+    }
+]

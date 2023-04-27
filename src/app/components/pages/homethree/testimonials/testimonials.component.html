@@ -1,0 +1,38 @@
+<!-- Testimonials Start -->
+<div class="section section-padding pt-0">
+    <div class="container">
+        <div class="section-title-wrap section-header">
+            <h5 class="custom-primary">Testimonials</h5>
+            <h2 class="title">What Are People Saying</h2>
+        </div>
+        <div class="row">
+            <!-- Testimonail item start -->
+            <div class="col-lg-4 col-md-12" *ngFor="let item of testimonial | slice:0:3">
+                <div class="acr-testimonial">
+                    <div class="acr-testimonial-body">
+                        <h5>{{item.title}}</h5>
+                        <div class="acr-rating-wrapper">
+                            <div class="acr-rating">
+                                <ngb-rating [max]="5" [(rate)]="item.rating" [readonly]="true">
+                                    <ng-template let-fill="fill" let-index="index">
+                                        <i class="fas fa-star" [class.active]="fill === 100"></i>
+                                    </ng-template>
+                                </ngb-rating>
+                            </div>
+                        </div>
+                        <p>{{item.comment}}</p>
+                    </div>
+                    <div class="acr-testimonial-author">
+                        <img [src]="item.authorimg" [alt]="item.author">
+                        <div class="acr-testimonial-author-inner">
+                            <h6>{{item.author}}</h6>
+                            <span>{{item.post}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Testimonail item end -->
+        </div>
+    </div>
+</div>
+<!-- Testimonials End -->

@@ -1,0 +1,95 @@
+<!-- FAQs Start -->
+<div class="section">
+    <div class="container">
+        <div class="section-title-wrap section-header">
+            <h5 class="custom-primary">FAQ</h5>
+            <h2 class="title">FAQ Pricing</h2>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 mb-lg-30">
+                <ngb-accordion [closeOthers]="true" activeIds="static-1" class="accordion with-gap" id="faqAccordions1">
+                    <ngb-panel id="static-1">
+                        <ng-template ngbPanelTitle>
+                            How can I start with buying a home?
+                        </ng-template>
+                        <ng-template ngbPanelContent>
+                            <p> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+                                quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon
+                                tempor,
+                                sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
+                            </p>
+                            <p> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+                                quinoa nesciunt laborum eiusmod.
+                            </p>
+                            <ul class="acr-list mb-0">
+                                <li> Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
+                                <li> Many desktop publishing packages and web page editors now use Lorem Ipsum </li>
+                                <li> There are many variations of passages of Lorem Ipsum </li>
+                                <li> Internet tend to repeat predefined chunks as necessary </li>
+                            </ul>
+                        </ng-template>
+                    </ngb-panel>
+                    <ngb-panel id="static-2">
+                        <ng-template ngbPanelTitle>
+                            Is the service free?
+                        </ng-template>
+                        <ng-template ngbPanelContent>
+                            <p> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+                                quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon
+                                tempor,
+                                sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
+                            </p>
+                            <p> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+                                quinoa nesciunt laborum eiusmod.
+                            </p>
+                            <ul class="acr-list mb-0">
+                                <li> Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
+                                <li> Many desktop publishing packages and web page editors now use Lorem Ipsum </li>
+                                <li> There are many variations of passages of Lorem Ipsum </li>
+                                <li> Internet tend to repeat predefined chunks as necessary </li>
+                            </ul>
+                        </ng-template>
+                    </ngb-panel>
+                    <ngb-panel id="static-3">
+                        <ng-template ngbPanelTitle>
+                            How many agents can I have at once?
+                        </ng-template>
+                        <ng-template ngbPanelContent>
+                            <p> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+                                quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon
+                                tempor,
+                                sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
+                            </p>
+                            <p> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+                                quinoa nesciunt laborum eiusmod.
+                            </p>
+                            <ul class="acr-list mb-0">
+                                <li> Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
+                                <li> Many desktop publishing packages and web page editors now use Lorem Ipsum </li>
+                                <li> There are many variations of passages of Lorem Ipsum </li>
+                                <li> Internet tend to repeat predefined chunks as necessary </li>
+                            </ul>
+                        </ng-template>
+                    </ngb-panel>
+                </ngb-accordion>
+            </div>
+            <div class="col-lg-4 infographics-5">
+                <div class="acr-infographic-item" *ngFor="let item of contactinfo | slice:0:2">
+                    <i class="flaticon-{{item.icon}}"></i>
+                    <div class="acr-infographic-item-body">
+                        <h5>{{item.title}}</h5>
+                        <p>{{item.text}}</p>
+                        <a href="{{item.btnurl}}" class="btn-custom secondary btn-sm">{{item.btntext}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- FAQs End -->

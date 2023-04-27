@@ -1,0 +1,25 @@
+<!-- Contact Form Start -->
+<div class="section pt-0">
+    <div class="container">
+        <div class="section-title-wrap section-header">
+            <h5 class="custom-primary">Contact Us</h5>
+            <h2 class="title">Get In Touch</h2>
+        </div>
+        <div class="comment-form section-title-wrap section-header">
+            <app-formbox></app-formbox>
+        </div>
+        <div class="row infographics-5">
+            <div class="col-lg-4" *ngFor="let item of contactinfo">
+                <div class="acr-infographic-item">
+                    <i class="flaticon-{{item.icon}}"></i>
+                    <div class="acr-infographic-item-body">
+                        <h5>{{item.title}}</h5>
+                        <p>{{item.text}}</p>
+                        <a href="{{item.btnurl}}" class="btn-custom secondary btn-sm">{{item.btntext}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Contact Form End -->

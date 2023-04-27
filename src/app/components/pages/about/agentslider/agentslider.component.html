@@ -1,0 +1,35 @@
+<!-- Agents Start -->
+<div class="section section-padding agents">
+    <div class="container">
+        <div class="section-title-wrap section-header flex-header">
+            <div class="section-title-text">
+                <h5 class="custom-primary">Our Back bone</h5>
+                <h2 class="title">Meet Our Agents</h2>
+            </div>
+            <div class="acr-arrows primary-arrows">
+                <i class="slider-prev fas fa-arrow-left slick-arrow"></i>
+                <i class="slider-next fas fa-arrow-right slick-arrow"></i>
+            </div> 
+        </div>
+        <ngx-slick-carousel #slickModal="slick-carousel" [config]="settings" class="agents-slider">
+            <!-- Agent Start -->
+            <div ngxSlickItem class="acr-agent" *ngFor="let item of agent">
+                <div class="listing-badge featured" *ngIf="item.star">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="acr-dots-wrapper acr-agent-thumb">
+                    <div class="acr-dots"></div>
+                    <a routerLink="/agent-details/{{item.id}}"> <img [src]="item.img" [alt]="item.name"></a>
+                </div>
+                <div class="acr-agent-body">
+                    <h6> <a routerLink="/agent-details/{{item.id}}">{{item.name}}</a> </h6>
+                    <span>{{item.post}}</span>
+                    <p>{{item.text}}</p>
+                    <a routerLink="/agent-details/{{item.id}}" class="btn-custom secondary btn-sm">View Profile</a>
+                </div>
+            </div>
+            <!-- Agent End -->
+        </ngx-slick-carousel>
+    </div>
+</div>
+<!-- Agents End -->

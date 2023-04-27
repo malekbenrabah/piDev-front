@@ -1,0 +1,110 @@
+<!-- Listings Start -->
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <!-- Sidebar Start -->
+            <div class="col-lg-4">
+                <app-shopsidebar></app-shopsidebar>
+            </div>
+            <!-- Sidebar End -->
+            <!-- Posts Start -->
+            <div class="col-lg-8">
+                <!-- Controls Start -->
+                <div class="acr-global-listing-controls">
+                    <div class="acr-listing-active-filters">
+                        <a routerLink="/listing/cat/{{item.id}}" *ngFor="let item of category | slice:0:3">
+                            <div class="close-btn close-dark">
+                                <span></span>
+                                <span></span>
+                            </div>
+                            {{item.title}}
+                        </a>
+                    </div>
+                    <div class="acr-toggle-views">
+                        <a routerLink="/listing-grid" placement="top" ngbTooltip="Grid"><i
+                                class="fas fa-th-large"></i></a>
+                        <a routerLink="/listing-list" class="active" placement="top" ngbTooltip="List"><i
+                                class="fas fa-th-list"></i></a>
+                        <a routerLink="/listing-map" placement="top" ngbTooltip="Map"><i class="fas fa-map"></i></a>
+                    </div>
+                </div>
+                <!-- Controls End -->
+                <!-- Listing Start -->
+                <div class="listing listing-list"
+                    *ngFor="let item of listing | paginate:{itemsPerPage:tableSize,currentPage:page,totalItems:count};let i=index ">
+                    <div class="listing-thumbnail">
+                        <a routerLink="/listing-details-v1/{{item.id}}"><img [src]="item.property.photo[1]"
+                                [alt]="item.title"></a>
+                        <div class="listing-badges">
+                            <span class="listing-badge sale" *ngIf="item.typeAd=='Sale'">On Sale</span>
+                            <span class="listing-badge rent" *ngIf="item.typeAd=='Rental'">Rental</span>
+                        </div>
+                        <div class="listing-controls">
+                            <a routerLink="/" class="favorite"><i class="far fa-heart"></i></a>
+                            <a routerLink="/" class="compare"><i class="fas fa-sync-alt"></i></a>
+                        </div>
+                    </div>
+                    <div class="listing-body">
+                        <div class="listing-author">
+                            <img [src]="item.property.photo[1]" [alt]="item.username">
+                            <div class="listing-author-body">
+                                <p> <a routerLink="/agent-details/{{item.id}}">{{item.username}}</a> </p>
+                                <span class="listing-date">{{ formatDate(item.created_at) }}</span>
+                            </div>
+                            <div class="dropdown options-dropdown" ngbDropdown>
+                                <a href="javascript:void(0)" ngbDropdownToggle><i class="fas fa-ellipsis-v"></i></a>
+                                <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right">
+                                    <ul>
+                                        <li> <a href="tel:{{item.phone}}"> <i class="fas fa-phone"></i> Call Agent</a> </li>
+                                        <li> <a href="mailto:{{item.email}}"> <i class="fas fa-envelope"></i> Send Message</a> </li>
+                                        <li> <a routerLink="/listing-details-v1/{{item.id}}"> <i class="fas fa-bookmark"></i> Book Tour</a> </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <h5 class="listing-title"> 
+                            <a routerLink="/listing-details-v1/{{item.id}}" [title]="item.title">{{item.title}}</a>
+                        </h5>
+                        <span class="listing-price">{{item.price  | number:'1.2-2'}}$  </span>
+                        <p class="listing-text">{{item.description}}</p>
+                        <div class="acr-listing-icons">
+                            <div class="acr-listing-icon" placement="top" ngbTooltip="Rooms">
+                                <i class="flaticon-home-1"></i>
+                                <span class="acr-listing-icon-value">{{item.property.rooms}}</span>
+                            </div>
+                            <div class="acr-listing-icon" placement="top" ngbTooltip="Garage">
+                                <i class="flaticon-garage"></i>
+                                <span class="acr-listing-icon-value" *ngIf="item.property.garage; else noGarage">Garage</span>
+                                <ng-template #noGarage>No garage</ng-template>
+                            </div>
+                            <div class="acr-listing-icon" placement="top" ngbTooltip="Square Feet">
+                                <i class="flaticon-ruler"></i>
+                                <span class="acr-listing-icon-value">{{item.property.size | number:'1.2-2'}} m²</span>
+                            </div>
+                        </div>
+                        <div class="listing-gallery-wrapper">
+                            <a routerLink="/listing-details-v1/{{item.id}}" class="btn-custom btn-sm secondary">View
+                                Details</a>
+                            <a routerLink="/" placement="top" ngbTooltip="Gallery" class="listing-gallery"> <i
+                                    class="fas fa-camera"></i> </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Listing End -->
+                <!-- Pagination Start -->
+                   <!--
+                    <div class="pagination">
+                        <pagination-controls (pageChange)="page = $event"></pagination-controls>
+                    </div>
+                    --> 
+                    <pagination-controls previousLabel="Previous" nextLabel="Next" (pageChange)="page = $event"></pagination-controls>
+                  
+                   
+
+                <!-- Pagination End -->
+            </div>
+            <!-- Posts End -->
+        </div>
+    </div>
+</div>
+<!-- Listings End -->

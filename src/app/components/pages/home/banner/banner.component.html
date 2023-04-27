@@ -1,0 +1,96 @@
+<!-- Banner Start -->
+<div class="header-absolute"></div>
+<div class="banner banner-2">
+    <ngx-slick-carousel #slickModal="slick-carousel" [config]="settings" class="banner-slider">
+        <div ngxSlickItem class="banner-item" *ngFor="let item of bannerpost">
+            <div class="banner-inner bg-cover bg-center dark-overlay" style="background-image: url('{{item.img}}')"></div>
+            <div class="acr-listing-details">
+                <div class="acr-listing-section">
+                    <div class="acr-listing-nav">
+                        <a routerLink="/listing-details-v1/1" class="btn-custom secondary">See more details</a>
+                    </div>
+                    <div class="acr-listing-section-body">
+                        <div class="acr-listing-section-price">
+                            <span>For Sale</span>
+                            <h3>${{item.price | number:'1.2-2'}}</h3>
+                            <span>Est. Mortgage</span>
+                            <p>${{item.price / item.emitime | number:'1.2-2'}}/mo</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="acr-listing-section">
+                    <div class="acr-listing-section-body">
+                        <h4> <a routerLink="/listing-details-v1/1">{{item.location}}</a> </h4>
+                        <div class="acr-listing-icons">
+                            <div class="acr-listing-icon">
+                                <i class="flaticon-bedroom"></i>
+                                <span>Beds</span>
+                                <span class="acr-listing-icon-value">{{item.beds}}</span>
+                            </div>
+                            <div class="acr-listing-icon">
+                                <i class="flaticon-bathroom"></i>
+                                <span>Baths</span>
+                                <span class="acr-listing-icon-value">{{item.baths}}</span>
+                            </div>
+                            <div class="acr-listing-icon">
+                                <i class="flaticon-ruler"></i>
+                                <span>Sqft</span>
+                                <span class="acr-listing-icon-value">{{item.area | number:'1.0-0'}}</span>
+                            </div>
+                        </div>
+                        <p>{{item.text}}</p>
+                    </div>
+                </div>
+                <div class="acr-listing-section">
+                    <div class="acr-listing-controls">
+                        <a routerLink="/" class="acr-listing-control">
+                            <i class="flaticon-share"></i>
+                        </a>
+                        <a routerLink="/" class="acr-listing-control">
+                            <i class="flaticon-star"></i>
+                        </a>
+                        <a routerLink="/" class="acr-schedule-tour acr-listing-control">
+                            <i class="flaticon-event"></i>
+                            <span>Schedule a Tour</span>
+                        </a>
+                    </div>
+                    <div class="acr-listing-section-body">
+                        <div class="acr-listing-meta">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-3 col-sm-3">
+                                    <div class="acr-listing-meta-item">
+                                        <span>Type</span>
+                                        <p>{{item.type}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-3 col-sm-3">
+                                    <div class="acr-listing-meta-item">
+                                        <span>View</span>
+                                        <p>{{item.view}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-3 col-sm-3">
+                                    <div class="acr-listing-meta-item">
+                                        <span>Lot Size</span>
+                                        <p>{{item.size}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-3 col-sm-3">
+                                    <div class="acr-listing-meta-item">
+                                        <span>Condition</span>
+                                        <p>{{item.condition}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ngx-slick-carousel>
+    <div class="acr-arrows">
+        <i class="slider-prev fas fa-arrow-left slick-arrow"></i>
+        <i class="slider-next fas fa-arrow-right slick-arrow"></i>
+    </div>
+</div>
+<!-- Banner End -->

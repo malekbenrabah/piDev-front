@@ -1,0 +1,201 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "~leaflet/dist/leaflet.css";
+@import "~magnific-popup/dist/magnific-popup.css";
+ .main-aside .aside-scroll {
+	height: 100vh;
+}
+.main-aside .aside-scroll>ul {
+	overflow-y: auto;
+	height: 100%;
+}
+app-menu {
+	position: static;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+}
+.slick-slide {
+	margin: 0 15px;
+}
+.post.post-list .post-thumbnail {
+	width: 185px;
+}
+.post.post-list .post-thumbnail>a,
+.post.post-list .post-thumbnail>a>img {
+	height: 188px;
+	object-fit: cover;
+}
+.post.post-list .post-body {
+	width: calc(100% - 185px);
+}
+button:focus,
+ngb-rating:focus {
+	outline: none!important;
+	box-shadow: none!important;
+}
+/* Pagination */
+
+pagination-template .ngx-pagination {
+	margin-top: 20px;
+	justify-content: center;
+	margin-bottom: 0;
+	display: flex;
+	padding-left: 0;
+	list-style: none;
+	border-radius: .25rem;
+}
+pagination-template .ngx-pagination li {
+	margin: 0;
+	position: relative;
+}
+pagination-template .ngx-pagination li.pagination-next,
+pagination-template .ngx-pagination li.pagination-previous {
+	padding: 0;
+	display: block;
+}
+pagination-template .ngx-pagination li.pagination-next span,
+pagination-template .ngx-pagination li.pagination-previous span,
+pagination-template .ngx-pagination li a {
+	border-radius: 8px;
+	color: #848486;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	background-color: #fff;
+	border-radius: 8px;
+	font-size: 14px;
+	font-weight: 600;
+	padding: 15px 21px!important;
+	margin: 0;
+	position: relative;
+	margin-left: 15px;
+	display: block;
+	line-height: 1.25;
+}
+pagination-template .ngx-pagination li.current {
+	border-radius: 8px;
+	color: #519fff;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	background-color: #f7f9fc;
+	border-radius: 8px;
+	font-size: 14px;
+	font-weight: 600;
+	padding: 15px 20px!important;
+	margin: 0;
+	position: relative;
+	margin-left: 15px;
+	display: block;
+	line-height: 1.25;
+}
+pagination-template .ngx-pagination li.pagination-next::after,
+pagination-template .ngx-pagination li.pagination-next a:after,
+pagination-template .ngx-pagination li.pagination-previous a::before,
+pagination-template .ngx-pagination li.pagination-previous::before {
+	display: none!important;
+}
+.custom-control-label::before {
+	background-color: #dee2e6;
+	border: none;
+}
+.comments-list .comment-item .andro_rating ngb-rating span {
+	position: relative;
+	top: 0;
+	font-size: 12px;
+}
+.leaflet-popup-content-wrapper {
+	padding: 0;
+}
+.leaflet-popup-content {
+	margin: 0;
+}
+.leaflet-container a.leaflet-popup-close-button {
+	font-size: 16px;
+	border-radius: 0 8px 0 8px;
+	background-color: #101737;
+	color: #fff;
+	transition: .3s;
+	width: auto;
+	height: auto;
+	font-weight: 400;
+	padding: 5px;
+}
+.leaflet-container a.leaflet-popup-close-button:hover {
+	background-color: #519fff;
+	color: #fff;
+}
+ngx-dropzone.dropzone {
+	border: 1px dashed rgba(0, 0, 0, .1)!important;
+	min-height: 150px;
+	;
+	background: white;
+	padding: 20px 20px 5px;
+	height: auto;
+	flex-wrap: wrap;
+}
+.dropzone .dropzone-msg-title {
+	font-size: 18px;
+	font-weight: 600;
+	font-family: 'Roboto', serif;
+	line-height: 28px;
+}
+.dropzone .dropzone-msg {
+	display: grid;
+	text-align: center;
+	margin: 2em auto;
+}
+.dropzone i {
+	font-size: 28px;
+	color: #848486;
+}
+.dropzone .dropzone-msg-title {
+	margin: 20px 0 5px;
+	color: #848486;
+}
+.dropzone .dropzone-msg-desc {
+	color: #848486;
+	margin: 0;
+}
+ngx-dropzone-image-preview + .dropzone-msg {
+	display: none!important;
+}
+ngx-dropzone-image-preview {
+	margin: 0 15px 15px 0!important;
+}
+ngx-dropzone-image-preview img {
+	opacity: 1;
+}
+ngx-dropzone-image-preview ngx-dropzone-label {
+	color: #fff;
+}
+.acr-listing-features .listing-feature-wrapper{
+    columns: 2;
+}
+.listing-nearby-item ul ngb-rating span{
+	margin-right: 0;
+}
+.listing-thumbnail .listing-thumbnail-slider-main, 
+.listing-thumbnail .listing-thumbnail-slider-nav{
+	height: 100%;
+}
+.listing-thumbnail .listing-thumbnail-slider-main img, 
+.listing-thumbnail .listing-thumbnail-slider-nav img{
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+}
+.listing-banner-inner .listing-badges {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+.listing-banner-inner .listing-badge {
+    position: relative;
+    top: 0px;
+    left: 0px;
+}
+@media (max-width:576px){
+    .acr-listing-features .listing-feature-wrapper{
+        columns: 1;
+    }
+}

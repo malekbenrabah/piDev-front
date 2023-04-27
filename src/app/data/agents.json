@@ -1,0 +1,50 @@
+[
+    {
+        "id": 1,
+        "img": "assets/img/agents/1.jpg",
+        "pngimg":"assets/img/person.png",
+        "name": "Randy Blue",
+        "post": "Expert at Company",
+        "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+        "rating": 4,
+        "star": true,
+        "phoneno":"+123456789",
+        "emailid":"mail@example.com"
+    },
+    {
+        "id": 2,
+        "img": "assets/img/agents/2.jpg",
+        "pngimg":"assets/img/person.png",
+        "name": "Rinda Flow",
+        "post": "Expert at Company",
+        "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+        "rating": 3,
+        "star": false,
+        "phoneno":"+123456789",
+        "emailid":"mail@example.com"
+    },
+    {
+        "id": 3,
+        "img": "assets/img/agents/3.jpg",
+        "pngimg":"assets/img/person.png",
+        "name": "Gina Mconihon",
+        "post": "Expert at Company",
+        "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+        "rating": 2,
+        "star": false,
+        "phoneno":"+123456789",
+        "emailid":"mail@example.com"
+    },
+    {
+        "id": 4,
+        "img": "assets/img/agents/4.jpg",
+        "pngimg":"assets/img/person.png",
+        "name": "Oliver Rasky",
+        "post": "Expert at Company",
+        "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+        "rating": 5,
+        "star": true,
+        "phoneno":"+123456789",
+        "emailid":"mail@example.com"
+    }
+]
