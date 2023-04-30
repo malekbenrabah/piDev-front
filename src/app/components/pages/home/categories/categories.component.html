@@ -6,14 +6,14 @@
             <h2 class="title">Browse By Category</h2>
         </div>
         <div class="row">
-            <div class="col-lg-4 col-md-6" *ngFor="let item of category">
+            <div class="col-lg-4 col-md-6" *ngFor="let item of typesWithImages">
                 <div class="acr-category">
-                    <div class="acr-category-thumb">
+                    <div class="acr-category-thumb" >
                         <i class="flaticon-{{item.icon}}"></i>
-                        <a routerLink="/listing/cat/{{item.id}}"><img [src]="item.img" [alt]="item.title"></a>
+                        <a routerLink="/listing/cat/{{item.type}}"><img [src]="item.image" [alt]="item.title"></a>
                         <div class="acr-category-body">
-                            <h5> <a routerLink="/listing/cat/{{item.id}}">{{item.title}}</a> </h5>
-                            <span>{{item.numberofitem}} Listings</span>
+                            <h5> <a routerLink="/listing/cat/{{item.type}}">{{item.type}}</a> </h5>
+                            <span>{{(getNbAdsByType(item.type) | async)}} Listing</span>
                         </div>
                     </div>
                 </div>

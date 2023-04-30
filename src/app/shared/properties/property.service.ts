@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';  
 import { advertisement } from '../model/advertisement';
+import { Type } from '../model/property';
 
 @Injectable({
   providedIn: 'root'
@@ -10,46 +11,65 @@ export class PropertyService {
 
   baseUrl = 'http://localhost:8089/api/ad';
 
-  constructor(private http:HttpClient) {}
+  constructor(private http:HttpClient) {
+    localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZSI6Ijk2NTA4NDg5Iiwicm9sZXMiOlt7ImF1dGhvcml0eSI6IlVTRVIifV0sImVtYWlsIjoibWFsZWsuYmVucmFiYWgyQGdtYWlsLmNvbSIsInN1YiI6Im1hbGVrIiwiaWF0IjoxNjgyODU1MDcyLCJleHAiOjE2ODI4NTY1MTJ9.jOQs2woGSxTn1cso31iyCTrFxQ6np5uwQAQyyNXm8EA');
 
+  }
+
+
+  getAdvertisementById(id: number): Observable<advertisement> {
+    return this.http.get<advertisement>(`${this.baseUrl}/getById/${id}`);
+  }
+
+  getMinPrice(id:number): Observable<number>{
+    return this.http.get<number>("http://localhost:8089/api/ad/getMinprice/"+id);
+  }
+
+  getMaxPrice(id:number): Observable<number>{
+    return this.http.get<number>("http://localhost:8089/api/ad/getMaxprice/"+id);
+  }
+
+  getSimilarAds(id:number):Observable<advertisement[]>{
+    return this.http.get<advertisement[]>("http://localhost:8089/api/ad/getSimilarAds/"+id);
+  }
+
+  public getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    });
+  }
   
-    getAdvertisementById(id: number): Observable<advertisement> {
-      
-      return this.http.get<advertisement>(`${this.baseUrl}/getById/${id}`);
-    
-    }
+  getUsersAd():Observable<advertisement[]> {
+    const header = this.getHeaders();
 
-    getMinPrice(id:number): Observable<number>{
-      return this.http.get<number>("http://localhost:8089/api/ad/getMinprice/"+id);
-    }
+    return this.http.get<advertisement[]>("http://localhost:8089/api/ad/getUsersAd", { headers: header });
+  }
 
-    getMaxPrice(id:number): Observable<number>{
-      return this.http.get<number>("http://localhost:8089/api/ad/getMaxprice/"+id);
-    }
+  getUserAdsById(id: number): Observable<advertisement[]> {
+    return this.http.get<advertisement[]>("http://localhost:8089/api/ad/getAdsUser/" + id);
+  }
 
-    getSimilarAds(id:number):Observable<advertisement[]>{
-      return this.http.get<advertisement[]>("http://localhost:8089/api/ad/getSimilarAds/"+id);
-    }
+  getAdsByType(type: Type): Observable<advertisement[]> {
+    return this.http.get<advertisement[]>("http://localhost:8089/api/ad/adsByType?type=" + type);
+  }
+  getNbAdsByType(type: Type): Observable<number> {
+    return this.http.get<number>("http://localhost:8089/api/ad/adsByType?type=" + type);
+  }
 
-    addAd(advertisement: any, photos: FileList): Observable<any> {
-      const formData = new FormData();
-      formData.append('title', advertisement.title);
-      formData.append('price', advertisement.price);
-      formData.append('description', advertisement.description);
-      formData.append('typeAd', advertisement.typeAd);
-      formData.append('size', advertisement.size);
-      formData.append('type', advertisement.type);
-      formData.append('rooms', advertisement.rooms);
-      formData.append('parking', advertisement.parking);
-      formData.append('yardSpace', advertisement.yardSpace);
-      formData.append('garage', advertisement.garage);
-      formData.append('region', advertisement.region);
-      formData.append('ville', advertisement.ville);
-      for (let i = 0; i < photos.length; i++) {
-        formData.append('photo', photos[i]);
-      }
-      const token = localStorage.getItem('token');
-      const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-      return this.http.post("http://localhost:8089/api/ad/addAd", formData, { headers });
-    }
+  getTopAds():Observable<advertisement[]>{
+    return this.http.get<advertisement[]>("http://localhost:8089/api/ad/getTopAds");
+  }
+
+  deleteAdvertisement(id:number): Observable<boolean>{
+    const header = this.getHeaders();
+    return this.http.delete<boolean>("http://localhost:8089/api/ad/deleteAd/"+id,{headers:header});
+  }
+
+
+
+
+   
 }

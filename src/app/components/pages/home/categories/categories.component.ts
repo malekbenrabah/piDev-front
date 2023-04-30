@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import category from '../../../../data/category.json'
 import listings from '../../../../data/listings.json'
+import { Type } from 'src/app/shared/model/property';
+import { advertisement } from 'src/app/shared/model/advertisement';
+import { PropertiesService } from 'src/app/shared/properties/properties.service';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-categories',
@@ -9,22 +14,71 @@ import listings from '../../../../data/listings.json'
 })
 export class CategoriesComponent implements OnInit {
 
-  constructor() { }
-  public category = category;
-  public listings = listings;
+  types = Object.values(Type);
 
-  public setCategoriesCount(){
 
-    for(var i = 0; i < this.category.length; i++){
-      var count = this.listings.filter( post => { return post.categories.includes( parseInt( this.category[i].id ) ) } );
-      count = count.length;
-      this.category[i].numberofitem = count;
+  typesWithImages = this.types.map((type, index) => {
+    let image = '';
+    let icon = '';
+    let title='';
+    switch(type) {
+      case Type.House:
+        image = 'assets/img/categories/1.jpg';
+        icon = 'house';
+        title = Type.House
+        break;
+      case Type.Appartment:
+        image = 'assets/img/categories/2.jpg';
+        icon = 'apartment';
+        title=Type.Appartment
+        break;
+      case Type.Villa:
+        image = 'assets/img/categories/3.jpg';
+        icon = 'villa';
+        title=Type.Villa
+        break;
+      case Type.Land:
+        image = 'assets/img/categories/4.jpg';
+        icon = 'location';
+        title=Type.Land;
+        break;
+      case Type.Office:
+        image = 'assets/img/categories/5.jpg';
+        icon = 'company-1';
+        title=Type.Office;
+        break;
     }
-    
+    return { id: index + 1, type: type, image: image, icon: icon, title:title };
+  });
+  listing:advertisement[];
+  constructor(private properties:PropertiesService ) { }
+  ngOnInit(): void {
+    console.log(this.typesWithImages);
+    this.getAds();
+  }
+  
+  getAds(){
+    this.properties.getProperties().subscribe(res=>{console.log(res); this.listing=res});
   }
 
-  ngOnInit(): void {
-    this.setCategoriesCount();
+  getNbAdsByType(type:Type):Observable<number>{
+    
+  //check if this.listing is already defined before calling this.properties.getProperties(). If this.listing is already defined, it can simply return the number of ads by type using of().
+  // Otherwise, it can fetch the properties from the server and then return the number of ads by type. 
+
+    if (this.listing) {
+      const filteredAds = this.listing.filter(ad => ad.property.type === type);
+      return of(filteredAds.length);
+    } else {
+      return this.properties.getProperties().pipe(
+        map(listing => {
+          this.listing = listing;
+          const filteredAds = listing.filter(ad => ad.property.type === type);
+          return filteredAds.length;
+        })
+      );
+    }
+   
   }
 
 }
