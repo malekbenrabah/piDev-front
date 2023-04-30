@@ -1,4 +1,4 @@
-<div class="section">
+<div class="section" *ngIf="isAuthenticated">
     <div class="container">
         <div class="row">
             <div class="col-lg-4">
@@ -12,64 +12,122 @@
                 </div>
             </div>
             <div class="col-lg-8">
+               <!--Modal supression -->
+               <ng-template #confirmationModal let-modal>
+                <div class="modal-header">
+                  <h5 class="modal-title">Update Advertisement</h5>
+                  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                 
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" (click)="modal.dismiss('cancel')">Cancel</button>
+                  <button type="button" class="btn btn-primary" (click)="onUpdate()">Update</button>
+                </div>
+              </ng-template>
+              
+
+                <!-- Modal update -->
+                <ng-template #updateModal let-modal>
+                    <div class="modal-header">
+                      <h4 class="modal-title" id="modal-basic-title">Delete Confirmation</h4>
+                      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete this advertisement?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Annuler</button>
+                      <button type="button" class="btn btn-danger" (click)="delete()">Supprimer</button>
+                    </div>
+                </ng-template>
+
+                <!--Alert sucess -->
+                <!--
+                <div *ngIf="showAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+                    L'annonce a été supprimée avec succès!
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                -->
                 <!-- Listing Start -->
-                <div class="listing listing-list"
-                    *ngFor="let item of listing | slice:0:4">
+                <div class="listing listing-list" *ngFor="let item of userAds">
+
+                    <!-- alerte supression -->
+                    <div *ngIf="item.id === deletedAdId">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            L'annonce a été supprimée avec succès!
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+
                     <div class="listing-thumbnail">
-                        <a routerLink="/listing-details-v1/{{item.id}}"><img [src]="item.listimg"
+                        <a routerLink="/listing-details-v1/{{item.id}}"><img [src]="item.property.photo[1]"
                                 [alt]="item.title"></a>
                         <div class="listing-badges">
-                            <span class="listing-badge featured" *ngIf="item.star"><i class="fas fa-star"></i></span>
-                            <span class="listing-badge sale" *ngIf="item.sale">On Sale</span>
-                            <span class="listing-badge pending" *ngIf="item.pending">Pending</span>
-                            <span class="listing-badge rent" *ngIf="item.rental">Rental</span>
+                            <span class="listing-badge sale" *ngIf="item.typeAd=='Sale'">On Sale</span>
+                            <span class="listing-badge rent" *ngIf="item.typeAd=='Rental'">Rental</span>
                         </div>
                         <div class="listing-controls">
                             <a routerLink="/" class="favorite"><i class="far fa-heart"></i></a>
                             <a routerLink="/" class="compare"><i class="fas fa-sync-alt"></i></a>
                         </div>
                     </div>
+                  
+                   
+
                     <div class="listing-body">
-                        <div class="listing-author" *ngFor="let author of getAuthor(item.author)">
-                            <img [src]="author.img" [alt]="author.name">
+
+                        <div class="listing-author">
+                            <!--
+                            <img src="assets/img/agents/1.jpg" [alt]="item.username">
                             <div class="listing-author-body">
-                                <p> <a routerLink="/agent-details/{{author.id}}">{{author.name}}</a> </p>
-                                <span class="listing-date">{{item.postdate}}</span>
+                                <p> <a routerLink="/agent-details/1">{{item.username}}</a> </p>
+                                <span class="listing-date">{{ formatDate(item.created_at) }}</span>
                             </div>
+                            -->
                             <div class="dropdown options-dropdown" ngbDropdown>
                                 <a href="javascript:void(0)" ngbDropdownToggle><i class="fas fa-ellipsis-v"></i></a>
                                 <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right">
                                     <ul>
-                                        <li> <a href="tel:{{author.phoneno}}"> <i class="fas fa-phone"></i> Call Agent</a> </li>
-                                        <li> <a href="mailto:{{author.emailid}}"> <i class="fas fa-envelope"></i> Send Message</a> </li>
-                                        <li> <a routerLink="/listing-details-v1/{{item.id}}"> <i class="fas fa-bookmark"></i> Book Tour</a> </li>
+                                        <li> <a routerLink="/"> <i class="flaticon-eye"></i>View</a> </li>
+                                        <li> <a routerLink="/"> <i class="flaticon-clipboard"></i>Update</a> </li>
+                                      <!--<li> <button id="deleteLink" (click)="openModal(confirmationModal,item.id)" class="btn btn-link dropdown-item"><i class="flaticon-recycle-bin"></i>Delete</button> </li> -->
                                     </ul>
                                 </div>
                             </div>
                         </div>
                         <h5 class="listing-title"> <a routerLink="/listing-details-v1/{{item.id}}"
                                 [title]="item.title">{{item.title}}</a> </h5>
-                        <span class="listing-price">{{item.price / item.emitime | number:'1.2-2'}}$ <span>/month</span> </span>
+                        <span class="listing-price">{{item.price  | number:'1.2-2'}}$ <span *ngIf="item.typeAd=='Rental'">/month</span> </span>
                         <p class="listing-text">{{item.text}}</p>
                         <div class="acr-listing-icons">
-                            <div class="acr-listing-icon" placement="top" ngbTooltip="Beds">
-                                <i class="flaticon-bedroom"></i>
-                                <span class="acr-listing-icon-value">{{item.beds}}</span>
+                            <div class="acr-listing-icon" placement="top" ngbTooltip="Rooms">
+                                <i class="flaticon-home-1"></i>
+                                <span class="acr-listing-icon-value">{{item.property.rooms}}</span>
                             </div>
-                            <div class="acr-listing-icon" placement="top" ngbTooltip="Bathrooms">
-                                <i class="flaticon-bathroom"></i>
-                                <span class="acr-listing-icon-value">{{item.bathrooms}}</span>
+                            <div class="acr-listing-icon" placement="top" ngbTooltip="Garage">
+                                <i class="flaticon-garage"></i>
+                                <span class="acr-listing-icon-value" *ngIf="item.property.garage; else noGarage">Garage</span>
+                                <ng-template #noGarage>No garage</ng-template>
                             </div>
                             <div class="acr-listing-icon" placement="top" ngbTooltip="Square Feet">
                                 <i class="flaticon-ruler"></i>
-                                <span class="acr-listing-icon-value">{{item.area | number:'1.2-2'}}</span>
+                                <span class="acr-listing-icon-value">{{item.property.size | number:'1.2-2'}} m²</span>
                             </div>
                         </div>
                         <div class="listing-gallery-wrapper">
-                            <a routerLink="/listing-details-v1/{{item.id}}" class="btn-custom btn-sm secondary">View
-                                Details</a>
-                            <a routerLink="/" placement="top" ngbTooltip="Gallery" class="listing-gallery"> <i
-                                    class="fas fa-camera"></i> </a>
+                            <a routerLink="/listing-details-v1/{{item.id}}" class="btn-custom btn-sm secondary">View Details</a>
+                            <button  id="updateLink" (click)="openModal(updateModal,item.id)" class="btn-custom btn-sm primary"><i class="flaticon-clipboard"></i></button>
+                            <button id="deleteLink" (click)="openModal(confirmationModal,item.id)" class="btn-custom btn-sm primary"> <i class="flaticon-recycle-bin"></i> </button>
                         </div>
                     </div>
                 </div>
@@ -78,3 +136,12 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+
+

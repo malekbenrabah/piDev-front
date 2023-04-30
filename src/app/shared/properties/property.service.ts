@@ -12,10 +12,14 @@ export class PropertyService {
   baseUrl = 'http://localhost:8089/api/ad';
 
   constructor(private http:HttpClient) {
-    localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZSI6Ijk2NTA4NDg5Iiwicm9sZXMiOlt7ImF1dGhvcml0eSI6IlVTRVIifV0sImVtYWlsIjoibWFsZWsuYmVucmFiYWgyQGdtYWlsLmNvbSIsInN1YiI6Im1hbGVrIiwiaWF0IjoxNjgyODU1MDcyLCJleHAiOjE2ODI4NTY1MTJ9.jOQs2woGSxTn1cso31iyCTrFxQ6np5uwQAQyyNXm8EA');
+    localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZSI6Ijk2NTA4NDg5Iiwicm9sZXMiOlt7ImF1dGhvcml0eSI6IlVTRVIifV0sImVtYWlsIjoibWFsZWsuYmVucmFiYWgyQGdtYWlsLmNvbSIsInN1YiI6Im1hbGVrIiwiaWF0IjoxNjgyODY3NDc1LCJleHAiOjE2ODI4Njg5MTV9.zD22-fPVcXhIHq-H6lnAeOCcHOP7J9L3Cz6iTVx8euw');
 
   }
 
+
+  getAdByiD(id: number): Observable<advertisement> {
+    return this.http.get<advertisement>("http://localhost:8089/api/ad/getByid/" + id);
+  }
 
   getAdvertisementById(id: number): Observable<advertisement> {
     return this.http.get<advertisement>(`${this.baseUrl}/getById/${id}`);

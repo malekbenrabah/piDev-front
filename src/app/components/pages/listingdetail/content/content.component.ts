@@ -43,6 +43,7 @@ export class ContentComponent implements OnInit, AfterContentInit {
     console.log(id);
     this.listingdetails= this.getAdById(id);
     */
+   /*
     this.propertiesService.getProperties().subscribe((data: advertisement[]) => {
       this.listing = data;
       this.listingdetails = this.getAdById(Number(this.router.snapshot.params.id));
@@ -50,7 +51,29 @@ export class ContentComponent implements OnInit, AfterContentInit {
       console.log("details :"+this.listingdetails);  
       this.getMinPrice(this.listingdetails.id);
       this.getMaxPrice(this.listingdetails.id)
+    });*/
+
+    /*
+    this.propertiesService.getProperties().subscribe(res=>{console.log(res); this.listing=res});
+    const id = Number(this.router.snapshot.params['id']);
+    console.log(id);
+    this.listingdetails= this.getAdById(id);
+    */
+    this.propertiesService.getProperties().subscribe((data: advertisement[]) => {
+      this.listing = data;
+      //this.listingdetails = this.getAdById(Number(this.router.snapshot.params.id));
+      console.log(listing);
+      //console.log("details :"+this.listingdetails);     
     });
+
+    this.propertyService.getAdByiD(Number(this.router.snapshot.params.id)).subscribe(ads => { 
+      this.listingdetails = ads; 
+      console.log("user ads by Id : "+JSON.stringify(this.listingdetails));
+    });
+
+    this.getMinPrice(Number(this.router.snapshot.params.id));
+    this.getMaxPrice(Number(this.router.snapshot.params.id));
+
   }
 
   max:number;

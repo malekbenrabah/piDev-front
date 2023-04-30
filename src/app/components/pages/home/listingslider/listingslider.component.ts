@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import listing from '../../../../data/listings.json';
 import agents from '../../../../data/agents.json';
+import { PropertiesService } from 'src/app/shared/properties/properties.service';
+import { advertisement } from 'src/app/shared/model/advertisement';
 
 @Component({
   selector: 'app-listingslider',
@@ -9,15 +11,8 @@ import agents from '../../../../data/agents.json';
 })
 export class ListingsliderComponent implements OnInit {
 
-  constructor() { }
-  public listing = listing;
-  public agents = agents;
-  public getAuthor(items: string | any[]) {
-    var elems = agents.filter((item: { id: string; }) => {
-      return items.includes(item.id)
-    });
-    return elems;
-  }
+  constructor(private propertiesService:PropertiesService) { }
+  ads:advertisement[];
   // Settings
   settings = {
     slidesToShow: 3,
@@ -43,6 +38,29 @@ export class ListingsliderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.propertiesService.getProperties().subscribe(res=>{console.log(res,"recent Listings"); this.ads=res});
+
   }
 
+
+
+  public listing = listing;
+  public agents = agents;
+  public getAuthor(items: string | any[]) {
+    var elems = agents.filter((item: { id: string; }) => {
+      return items.includes(item.id)
+    });
+    return elems;
+  }
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    };
+    const formatter = new Intl.DateTimeFormat('en-US', options);
+    return formatter.format(date);
+  }
 }

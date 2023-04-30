@@ -29,15 +29,13 @@
                 <!-- Controls End -->
                 <div class="row">
                     <!-- Listing Start -->
-                    <div class="col-md-6" *ngFor="let item of listing | paginate: { itemsPerPage: 6, currentPage: page }">
+                    <div class="col-md-6" *ngFor="let item of ads | paginate: { itemsPerPage: 6, currentPage: page }">
                         <div class="listing">
                             <div class="listing-thumbnail">
-                                <a routerLink="/listing-details-v1/{{item.id}}"><img [src]="item.gridimg" [alt]="item.title"></a>
+                                <a routerLink="/listing-details-v1/{{item.id}}"><img [src]="item.property.photo[1]" [alt]="item.title"></a>
                                 <div class="listing-badges">
-                                    <span class="listing-badge featured" *ngIf="item.star"><i class="fas fa-star"></i></span>
-                                    <span class="listing-badge sale" *ngIf="item.sale">On Sale</span>
-                                    <span class="listing-badge pending" *ngIf="item.pending">Pending</span>
-                                    <span class="listing-badge rent" *ngIf="item.rental">Rental</span>
+                                    <span class="listing-badge sale" *ngIf="item.typeAd=='Sale'">On Sale</span>
+                                    <span class="listing-badge rent" *ngIf="item.typeAd=='Rental'">Rental</span>
                                 </div>
                                 <div class="listing-controls">
                                     <a routerLink="/" class="favorite"><i class="far fa-heart"></i></a>
@@ -45,38 +43,39 @@
                                 </div>
                             </div>
                             <div class="listing-body">
-                                <div class="listing-author" *ngFor="let author of getAuthor(item.author)">
-                                    <img [src]="author.img" [alt]="author.name">
+                                <div class="listing-author">
+                                    <img src="assets/img/agents/1.jpg" [alt]="item.username">
                                     <div class="listing-author-body">
-                                        <p> <a routerLink="/agent-details/{{author.id}}">{{author.name}}</a> </p>
-                                        <span class="listing-date">{{item.postdate}}</span>
+                                        <p> <a routerLink="/agent-details/{{item.id}}">{{item.username}}</a> </p>
+                                        <span class="listing-date">{{ formatDate(item.created_at) }}</span>
                                     </div>
                                     <div class="dropdown options-dropdown" ngbDropdown>
                                         <a href="javascript:void(0)" ngbDropdownToggle><i class="fas fa-ellipsis-v"></i></a>
                                         <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right">
                                             <ul>
-                                                <li> <a href="tel:{{author.phoneno}}"> <i class="fas fa-phone"></i> Call Agent</a> </li>
-                                                <li> <a href="mailto:{{author.emailid}}"> <i class="fas fa-envelope"></i> Send Message</a> </li>
+                                                <li> <a href="tel:{{item.phone}}"> <i class="fas fa-phone"></i> Call Agent</a> </li>
+                                                <li> <a href="mailto:{{item.email}}"> <i class="fas fa-envelope"></i> Send Message</a> </li>
                                                 <li> <a routerLink="/listing-details-v1/{{item.id}}"> <i class="fas fa-bookmark"></i> Book Tour</a> </li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                                 <h5 class="listing-title"> <a routerLink="/listing-details-v1/{{item.id}}" [title]="item.title">{{item.title}}</a> </h5>
-                                <span class="listing-price">{{item.price / item.emitime | number:'1.2-2'}}$ <span>/month</span> </span>
-                                <p class="listing-text">{{item.text}}</p>
+                                <span class="listing-price">{{item.price  | number:'1.2-2'}}$ <span *ngIf="item.typeAd=='Rental'">/month</span> </span>
+                                <p class="listing-text">{{item.description}}</p>
                                 <div class="acr-listing-icons">
-                                    <div class="acr-listing-icon" placement="top" ngbTooltip="Beds">
-                                        <i class="flaticon-bedroom"></i>
-                                        <span class="acr-listing-icon-value">{{item.beds}}</span>
+                                    <div class="acr-listing-icon" placement="top" ngbTooltip="Rooms">
+                                        <i class="flaticon-home-1"></i>
+                                        <span class="acr-listing-icon-value">{{item.property.rooms}}</span>
                                     </div>
-                                    <div class="acr-listing-icon" placement="top" ngbTooltip="Bathrooms">
-                                        <i class="flaticon-bathroom"></i>
-                                        <span class="acr-listing-icon-value">{{item.bathrooms}}</span>
+                                    <div class="acr-listing-icon" placement="top" ngbTooltip="Garage">
+                                        <i class="flaticon-garage"></i>
+                                        <span class="acr-listing-icon-value" *ngIf="item.property.garage; else noGarage">Garage</span>
+                                        <ng-template #noGarage>No garage</ng-template>
                                     </div>
                                     <div class="acr-listing-icon" placement="top" ngbTooltip="Square Feet">
                                         <i class="flaticon-ruler"></i>
-                                        <span class="acr-listing-icon-value">{{item.area | number:'1.2-2'}}</span>
+                                        <span class="acr-listing-icon-value">{{item.property.size | number:'1.2-2'}} m²</span>
                                     </div>
                                 </div>
                                 <div class="listing-gallery-wrapper">
@@ -90,7 +89,7 @@
                 </div>
                 <!-- Pagination Start -->
                 <div class="pagination">
-                    <pagination-controls (pageChange)="page = $event"></pagination-controls>
+                    <pagination-controls previousLabel="Previous" nextLabel="Next" (pageChange)="page = $event"></pagination-controls>
                 </div>
                 <!-- Pagination End -->
             </div>

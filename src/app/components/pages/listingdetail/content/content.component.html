@@ -26,14 +26,14 @@
                         <div class="acr-listing-icons">
                             <div class="acr-listing-icon">
                                 <i class="flaticon-home-1"></i>
-                                <span>Beds</span>
+                                <span>Rooms</span>
                                 <span class="acr-listing-icon-value">{{listingdetails.property.rooms}}</span>
                             </div>
                             <div class="acr-listing-icon">
                                 <i class="flaticon-garage"></i>
-                                <span>Baths</span>
-                                <span class="acr-listing-icon-value" *ngIf="listingdetails.property.garage; else noGarage">Garage</span>
-                                <ng-template #noGarage>No garage</ng-template>
+                        
+                                <span class="acr-listing-icon-value" *ngIf="listingdetails.property.garage; else noGarage"> Garage</span>
+                                <ng-template #noGarage> No garage</ng-template>
                             </div>
                             <div class="acr-listing-icon">
                                 <i class="flaticon-ruler"></i>

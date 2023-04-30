@@ -23,7 +23,7 @@ export class CategoriesComponent implements OnInit {
     let title='';
     switch(type) {
       case Type.House:
-        image = 'assets/img/categories/1.jpg';
+        image = 'assets/img/categories/1.jpg'; 
         icon = 'house';
         title = Type.House
         break;

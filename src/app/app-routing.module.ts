@@ -31,7 +31,7 @@ const routes: Routes = [
   { path: 'register', loadChildren: () => import('./components/pages/register/register.module').then(m => m.RegisterModule), data: { breadcrumb: 'Register' } },
   { path: 'legal', loadChildren: () => import('./components/pages/legal/legal.module').then(m => m.LegalModule), data: { breadcrumb: 'Legal' } },
   // Listings
-  { path: 'listing/cat/:catId', loadChildren: () => import('./components/pages/listinggrid/listinggrid.module').then(m => m.ListinggridModule), data: { breadcrumb: 'Listing Grid' } },
+  { path: 'listing/cat/:type', loadChildren: () => import('./components/pages/listinggrid/listinggrid.module').then(m => m.ListinggridModule), data: { breadcrumb: 'Listing Grid' } },
   { path: 'listing-grid', loadChildren: () => import('./components/pages/listinggrid/listinggrid.module').then(m => m.ListinggridModule), data: { breadcrumb: 'Listing Grid' } },
   { path: 'listing-list', loadChildren: () => import('./components/pages/listinglist/listinglist.module').then(m => m.ListinglistModule), data: { breadcrumb: 'Listing List' } },
   { path: 'listing-map', loadChildren: () => import('./components/pages/listingmap/listingmap.module').then(m => m.ListingmapModule), data: { breadcrumb: 'Listing Map' } },

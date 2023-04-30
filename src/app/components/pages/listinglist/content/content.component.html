@@ -46,7 +46,7 @@
                     </div>
                     <div class="listing-body">
                         <div class="listing-author">
-                            <img [src]="item.property.photo[1]" [alt]="item.username">
+                            <img src="assets/img/agents/1.jpg" [alt]="item.username">
                             <div class="listing-author-body">
                                 <p> <a routerLink="/agent-details/{{item.id}}">{{item.username}}</a> </p>
                                 <span class="listing-date">{{ formatDate(item.created_at) }}</span>
