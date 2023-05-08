@@ -2,28 +2,28 @@
     {
         "id": 1,
         "title": "Perfect service",
-        "comment": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry",
-        "author": "John Mishlen",
-        "post": "Executive CEO at company",
-        "authorimg": "assets/img/people/1.jpg",
+        "comment": "I can't recommend this platform enough! Thanks to their advanced search tools and access to exclusive listings, I was able to find my dream home quickly and easily.",
+        "author": "Ben Rabah Malek",
+        "post": "Plateform user",
+        "authorimg": "assets/img/people/malek.jpg",
         "rating": 5
     },
     {
         "id": 2,
-        "title": "Competitive prices",
-        "comment": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry",
-        "author": "Moe Sondi",
-        "post": "Executive CEO at company",
-        "authorimg": "assets/img/people/2.jpg",
+        "title": "Efficient Tender Management ",
+        "comment": "I've been using this platform to bid on tenders for a while now, and I have to say, it's been a great experience. The process is straightforward and efficient.",
+        "author": "Jatlaoui Fedi",
+        "post": "Promoter",
+        "authorimg": "assets/img/people/fedi.jpg",
         "rating": 4
     },
     {
         "id": 3,
-        "title": "Great agents",
-        "comment": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry",
-        "author": "Mandy Floss",
-        "post": "Executive CEO at company",
-        "authorimg": "assets/img/people/3.jpg",
+        "title": "My Homebuying Experience",
+        "comment": "As a first-time homebuyer, I was nervous about the process, but this platform made it so easy. Thanks to their user-friendly interface, I was able to find the perfect home.",
+        "author": "Ben mehrez achref",
+        "post": "Plateform user",
+        "authorimg": "assets/img/people/achref.png",
         "rating": 4
     }
 ]

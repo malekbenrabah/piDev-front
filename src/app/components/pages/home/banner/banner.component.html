@@ -2,40 +2,37 @@
 <div class="header-absolute"></div>
 <div class="banner banner-2">
     <ngx-slick-carousel #slickModal="slick-carousel" [config]="settings" class="banner-slider">
-        <div ngxSlickItem class="banner-item" *ngFor="let item of bannerpost">
-            <div class="banner-inner bg-cover bg-center dark-overlay" style="background-image: url('{{item.img}}')"></div>
+        <div ngxSlickItem class="banner-item" *ngFor="let item of listing">
+            <div class="banner-inner bg-cover bg-center dark-overlay" style="background-image: url('{{item.property.photo[0]}}')"></div>
             <div class="acr-listing-details">
                 <div class="acr-listing-section">
                     <div class="acr-listing-nav">
-                        <a routerLink="/listing-details-v1/1" class="btn-custom secondary">See more details</a>
+                        <a routerLink="/listing-details-v1/{{item.id}}" class="btn-custom secondary">See more details</a>
                     </div>
                     <div class="acr-listing-section-body">
                         <div class="acr-listing-section-price">
-                            <span>For Sale</span>
-                            <h3>${{item.price | number:'1.2-2'}}</h3>
-                            <span>Est. Mortgage</span>
-                            <p>${{item.price / item.emitime | number:'1.2-2'}}/mo</p>
+                            <span  *ngIf="item.typeAd=='Sale'">For Sale</span>
+                            <span  *ngIf="item.typeAd=='Rental'">For Rent</span>
+                            <p>{{item.price | number:'1.2-2'}}$ <span *ngIf="item.typeAd=='Rental'">/month</span></p>
                         </div>
                     </div>
                 </div>
                 <div class="acr-listing-section">
                     <div class="acr-listing-section-body">
-                        <h4> <a routerLink="/listing-details-v1/1">{{item.location}}</a> </h4>
+                        <h4> <a routerLink="/listing-details-v1/1">{{item.title}}, {{item.property.region}}</a> </h4>
                         <div class="acr-listing-icons">
-                            <div class="acr-listing-icon">
-                                <i class="flaticon-bedroom"></i>
-                                <span>Beds</span>
-                                <span class="acr-listing-icon-value">{{item.beds}}</span>
+                            <div class="acr-listing-icon" placement="top" ngbTooltip="Rooms">
+                                <i class="flaticon-home-1"></i>
+                                <span class="acr-listing-icon-value">{{item.property.rooms}}</span>
                             </div>
-                            <div class="acr-listing-icon">
-                                <i class="flaticon-bathroom"></i>
-                                <span>Baths</span>
-                                <span class="acr-listing-icon-value">{{item.baths}}</span>
+                            <div class="acr-listing-icon" placement="top" ngbTooltip="Garage">
+                                <i class="flaticon-garage"></i>
+                                <span class="acr-listing-icon-value" *ngIf="item.property.garage; else noGarage">Garage</span>
+                                <ng-template #noGarage>No garage</ng-template>
                             </div>
-                            <div class="acr-listing-icon">
+                            <div class="acr-listing-icon" placement="top" ngbTooltip="Square Feet">
                                 <i class="flaticon-ruler"></i>
-                                <span>Sqft</span>
-                                <span class="acr-listing-icon-value">{{item.area | number:'1.0-0'}}</span>
+                                <span class="acr-listing-icon-value">{{item.property.size | number:'1.2-2'}} m²</span>
                             </div>
                         </div>
                         <p>{{item.text}}</p>
@@ -60,27 +57,26 @@
                                 <div class="col-lg-6 col-md-3 col-sm-3">
                                     <div class="acr-listing-meta-item">
                                         <span>Type</span>
-                                        <p>{{item.type}}</p>
+                                        <p>{{item.property.type}}</p>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-3 col-sm-3">
-                                    <div class="acr-listing-meta-item">
-                                        <span>View</span>
-                                        <p>{{item.view}}</p>
-                                    </div>
-                                </div>
+                               
                                 <div class="col-lg-6 col-md-3 col-sm-3">
                                     <div class="acr-listing-meta-item">
                                         <span>Lot Size</span>
-                                        <p>{{item.size}}</p>
+                                        <p>{{item.property.size}} m²</p>
                                     </div>
                                 </div>
+
                                 <div class="col-lg-6 col-md-3 col-sm-3">
                                     <div class="acr-listing-meta-item">
-                                        <span>Condition</span>
-                                        <p>{{item.condition}}</p>
+                                        <span>Features</span><br>
+                                        <p *ngIf="item.property.garage; else noGarage">Garage</p>
+                                        <ng-template #noGarage>No garage</ng-template>
+
                                     </div>
                                 </div>
+                               
                             </div>
                         </div>
                     </div>

@@ -12,52 +12,239 @@
                 </div>
             </div>
             <div class="col-lg-8">
+
+
+                <div class="acr-empty-section" *ngIf="userAds?.length! ==0">
+                    <i class="flaticon-home"></i>
+                    <h3>You Haven't published Any Listings</h3>
+                    <p>You still havent published any listings yet, Go back to the submit listings page</p>
+                    <a routerLink="/submit-listing" class="btn-custom">Submit Listing</a>
+                </div>
+               
+
+
                <!--Modal supression -->
                <ng-template #confirmationModal let-modal>
                 <div class="modal-header">
-                  <h5 class="modal-title">Update Advertisement</h5>
+                  <h5 class="modal-title">Delete Confirmation</h5>
                   <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
-                 
+                    Are you sure you want to delete this advertisement?
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" (click)="modal.dismiss('cancel')">Cancel</button>
-                  <button type="button" class="btn btn-primary" (click)="onUpdate()">Update</button>
+                  <button type="button" class="btn btn-danger" (click)="delete()">Delete</button>
                 </div>
-              </ng-template>
+               </ng-template>
               
 
                 <!-- Modal update -->
                 <ng-template #updateModal let-modal>
+                   
                     <div class="modal-header">
-                      <h4 class="modal-title" id="modal-basic-title">Delete Confirmation</h4>
-                      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
+                        <h4 class="modal-title" id="modal-basic-title">Update advertisement</h4>
+                        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <div class="modal-body">
-                        Are you sure you want to delete this advertisement?
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Annuler</button>
-                      <button type="button" class="btn btn-danger" (click)="delete()">Supprimer</button>
-                    </div>
+                    <form enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="row">
+                                    <ng-container *ngIf="test$ | async as test">
+                                    <div class="col-md-4">
+                                        <ul ngbNav #nav="ngbNav" class="nav nav-tabs tab-cards" id="submitListingTab" role="tablist">
+                                            <li [ngbNavItem]="1">
+                                                <a ngbNavLink> <span>01</span>Basic information</a>
+                                                <ng-template ngbNavContent>
+                                                    <div class="row">
+                                                    
+                                                        <div class="col-md-6 form-group">
+                                                            <label>Advertisement Tile</label>
+                                                           
+                                                            <input type="text" class="form-control" name="title" [(ngModel)]="title" required>
+
+                                                            <!--<input type="text" class="form-control" placeholder="{{test.title}}" name="title" [value]="(test$ | async)?.title" [(ngModel)]="title" required>-->
+                                                        </div>
+                                                        
+                                                        <div class="col-md-6 form-group">
+                                                            <label>Property For:</label>
+                                                            <select class="form-control" name="status" [(ngModel)]="selectedTypeAd" required>
+                                                            <option *ngFor="let adType of typeAds" >{{adType}}</option>
+                                                            </select>
+                                                        </div>
+                                                        
+                                                        <div class="col-md-6">
+                                                            <label>Property Type</label>
+                                                            <select class="form-control" name="type" [(ngModel)]="selectedType" required>
+                                                            <option *ngFor="let propType of types">{{propType}}</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-6 form-group">
+                                                            <label>Property Price</label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">$</span>
+                                                                </div>
+                                                                <input type="text" class="form-control" name="price"
+                                                                    placeholder="Property Price" [(ngModel)]="price" required>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="col-md-6 form-group">
+                                                            <label>Property Space (Sqft)</label>
+                                                            <input type="text" class="form-control" placeholder="Property Space (Sqft)"
+                                                                name="size" [(ngModel)]="size" >
+                                                        </div>
+                                                        <div class="col-md-12 form-group">
+                                                            <label>Adverisement Description</label>
+                                                            <textarea name="content" rows="4" class="form-control"
+                                                                placeholder="Property Description" [(ngModel)]="description" >
+                                                            </textarea>
+                                                        </div>
+                                                    </div>
+                                                </ng-template>
+                                            </li>
+                                            <li [ngbNavItem]="2">
+                                                <a ngbNavLink><span>02</span> Gallery</a>
+                                                
+                                                    <ng-template ngbNavContent>
+                                                    
+                                                        <div class="form-group">
+                                                            <label>Property Gallery</label>
+                            
+                                                            <ngx-dropzone class="custom-dropzone dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)"  >
+                                                                <div class="dropzone-msg dz-message needsclick">
+                                                                    <i class="fas fa-cloud-upload-alt"></i>
+                                                                    <ngx-dropzone-label class="dropzone-msg-title">Drop files here or click to
+                                                                        upload.</ngx-dropzone-label>
+                                                                    <span class="dropzone-msg-desc">You can upload up to 5 images for your listing</span>
+                                                                </div>
+                                                                <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files | slice:0:5" [file]="f" [removable]="true" (removed)="onRemove(f)" [(ngModel)]="photo" name="photo"  required>
+                                                                    <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                                                                </ngx-dropzone-image-preview>
+                                                            </ngx-dropzone>
+                                                        
+
+                                                            <span class="acr-form-notice">*You can upload up to 5 images for your listing</span>
+                                                            <span class="acr-form-notice">*Listing images should be atleast 620x480 in dimensions</span>
+                                                        </div>
+                                                    </ng-template>
+                                                
+
+                                                
+                                                
+                                                
+                                            </li>
+                                            <li [ngbNavItem]="3">
+                                                <a ngbNavLink><span>03</span> Location</a>
+                                                <ng-template ngbNavContent>
+                                                   
+                                                    <div class="row">
+                                                        <div class="col-md-12 form-group">
+                                                            <label>Region</label>
+                                                            <select class="form-control" name="region" [(ngModel)]="region" (change)="onRegionChange()">
+                                                              <option *ngFor="let region of regions">{{ region }}</option>
+                                                            </select>
+                                                          </div>
+                                                          <div class="col-md-12 form-group">
+                                                            <label>Ville</label>
+                                                            <select class="form-control" name="ville" [(ngModel)]="ville">
+                                                              <option *ngFor="let city of cities" [ngValue]="city">{{ city }}</option>
+                                                            </select>
+                                                          </div>
+                                                       
+                                                    </div>
+                                                </ng-template>
+                                            </li>
+                                          
+                                            <li [ngbNavItem]="4">
+                                                <a ngbNavLink><span>04</span> Details</a>
+                                                <ng-template ngbNavContent>
+                                                    <div class="row">
+    
+                                                        <div class="col-md-6 form-group">
+                                                            <label>Rooms</label>
+                                                            <input type="text" class="form-control" placeholder="Rooms" name="rooms" [(ngModel)]="rooms" [value]="test.property.rooms">
+                                                        </div>
+                                                        <div class="col-md-6 form-group">
+                                                            <label >Garage</label>
+                                                            <input type="checkbox" checked data-toggle="toggle" [(ngModel)]="garage" name="garage" [value]="test.property.garage">
+
+                                                        </div>
+                                                        <div class="col-md-6 form-group">
+                                                            <label >Parking</label>
+                                                            <input type="checkbox" checked data-toggle="toggle" [(ngModel)]="parking" name="parking" [value]="test.property.parking">
+
+                                                        </div>
+
+                                                        <div class="col-md-6 form-group">
+                                                            <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Tooltip on top">
+                                                                Tooltip on top
+                                                            </button>
+                                                        </div>
+                                                        
+                                                        <div class="col-md-6 form-group">
+                                                            <button type="button" class="btn btn-secondary" data-toggle="popover" title="Popover title" data-content="Some content inside the popover">
+                                                                Click me to see a popover
+                                                            </button>
+                                                        
+                                                        </div>
+                                                        <div class="col-md-6 form-group">
+                                                            <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                                                Toggle content
+                                                            </button>
+                                                            
+                                                            <div class="collapse" id="collapseExample">
+                                                            <div class="card card-body">
+                                                                This content can be collapsed and expanded
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                          
+                                                      
+                                                    
+                                                    </div>
+                                                </ng-template>
+                                                <button type="submit" class="btn-custom" name="submit" (click)="UpdateAd()">Submit Listing</button>
+
+                                            </li>
+                                        </ul>
+                                        
+                                    </div>
+                                    
+                                    <div class="col-md-8">
+                                        <div [ngbNavOutlet]="nav" class="m-0"></div>
+                                    </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                        <!--
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" (click)="onUpdate()" >Update</button>
+                        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+                        </div>
+                        -->
+                    </form>
+                    
                 </ng-template>
 
                 <!--Alert sucess -->
-                <!--
-                <div *ngIf="showAlert" class="alert alert-success alert-dismissible fade show" role="alert">
-                    L'annonce a été supprimée avec succès!
+                
+                <div *ngIf="showSuccessAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+                    Advertisement updated successfully.
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                -->
+                
                 <!-- Listing Start -->
-                <div class="listing listing-list" *ngFor="let item of userAds">
+                <div class="listing listing-list" *ngFor="let item of userAds | paginate:{itemsPerPage:tableSize,currentPage:page,totalItems:count};let i=index ">
 
                     <!-- alerte supression -->
                     <div *ngIf="item.id === deletedAdId">
@@ -70,7 +257,7 @@
                     </div>
 
                     <div class="listing-thumbnail">
-                        <a routerLink="/listing-details-v1/{{item.id}}"><img [src]="item.property.photo[1]"
+                        <a routerLink="/listing-details-v1/{{item.id}}"><img [src]="item.property.photo[0]"
                                 [alt]="item.title"></a>
                         <div class="listing-badges">
                             <span class="listing-badge sale" *ngIf="item.typeAd=='Sale'">On Sale</span>
@@ -82,18 +269,14 @@
                         </div>
                     </div>
                   
-                   
-
                     <div class="listing-body">
 
                         <div class="listing-author">
-                            <!--
-                            <img src="assets/img/agents/1.jpg" [alt]="item.username">
+                           
                             <div class="listing-author-body">
-                                <p> <a routerLink="/agent-details/1">{{item.username}}</a> </p>
                                 <span class="listing-date">{{ formatDate(item.created_at) }}</span>
                             </div>
-                            -->
+                        
                             <div class="dropdown options-dropdown" ngbDropdown>
                                 <a href="javascript:void(0)" ngbDropdownToggle><i class="fas fa-ellipsis-v"></i></a>
                                 <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right">
@@ -110,15 +293,17 @@
                         <span class="listing-price">{{item.price  | number:'1.2-2'}}$ <span *ngIf="item.typeAd=='Rental'">/month</span> </span>
                         <p class="listing-text">{{item.text}}</p>
                         <div class="acr-listing-icons">
+
+                            <div class="acr-listing-icon" placement="top" ngbTooltip="Location">
+                                <i class="flaticon-location"></i>
+                                <span class="acr-listing-icon-value">{{item.property.region}}</span>
+                            </div>
+
                             <div class="acr-listing-icon" placement="top" ngbTooltip="Rooms">
                                 <i class="flaticon-home-1"></i>
                                 <span class="acr-listing-icon-value">{{item.property.rooms}}</span>
                             </div>
-                            <div class="acr-listing-icon" placement="top" ngbTooltip="Garage">
-                                <i class="flaticon-garage"></i>
-                                <span class="acr-listing-icon-value" *ngIf="item.property.garage; else noGarage">Garage</span>
-                                <ng-template #noGarage>No garage</ng-template>
-                            </div>
+                           
                             <div class="acr-listing-icon" placement="top" ngbTooltip="Square Feet">
                                 <i class="flaticon-ruler"></i>
                                 <span class="acr-listing-icon-value">{{item.property.size | number:'1.2-2'}} m²</span>
@@ -126,16 +311,22 @@
                         </div>
                         <div class="listing-gallery-wrapper">
                             <a routerLink="/listing-details-v1/{{item.id}}" class="btn-custom btn-sm secondary">View Details</a>
-                            <button  id="updateLink" (click)="openModal(updateModal,item.id)" class="btn-custom btn-sm primary"><i class="flaticon-clipboard"></i></button>
-                            <button id="deleteLink" (click)="openModal(confirmationModal,item.id)" class="btn-custom btn-sm primary"> <i class="flaticon-recycle-bin"></i> </button>
+                            <a  id="updateLink" (click)="openModalUpdate(updateModal,item.id)" placement="top" ngbTooltip="Update" class="listing-gallery"><i class="fas fa-edit"></i></a>
+                            <a  id="deleteLink" placement="top" ngbTooltip="Delete" class="listing-gallery-delete"   (click)="openModalDelete(confirmationModal,item.id)"> <i class="fas fa-trash-alt"></i></a>
                         </div>
                     </div>
                 </div>
                 <!-- Listing End -->
+
+                <!-- Pagination -->
+                <pagination-controls previousLabel="Previous" nextLabel="Next" (pageChange)="page = $event" *ngIf="userAds?.length! !==0"></pagination-controls>
+               <!--end pagination -->
             </div>
         </div>
     </div>
 </div>
+
+
 
 
 

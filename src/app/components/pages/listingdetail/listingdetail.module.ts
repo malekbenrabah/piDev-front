@@ -9,6 +9,7 @@ import { ListingdetailComponent } from './listingdetail.component';
 
 import { SharedModule } from '../../shared/shared.module';
 import { ContentComponent } from './content/content.component'
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [ListingdetailComponent, ContentComponent],
@@ -18,7 +19,9 @@ import { ContentComponent } from './content/content.component'
     SharedModule,
     NgbModule,
     HttpClientModule,
-    SlickCarouselModule
+    SlickCarouselModule,
+    FormsModule
+
   ]
 })
 export class ListingdetailModule { }

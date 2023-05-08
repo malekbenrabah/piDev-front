@@ -11,28 +11,36 @@
             <div class="col-lg-8">
                 <!-- Controls Start -->
                 <div class="acr-global-listing-controls">
+                   
                     <div class="acr-listing-active-filters">
-                        <a routerLink="/listing/cat/{{item.id}}" *ngFor="let item of Singlecategory | slice:0:3">
-                            <div class="close-btn close-dark">
-                                <span></span>
-                                <span></span>
-                            </div>
-                            {{item.title}}
-                        </a>
+                       
                     </div>
-                    <div class="acr-toggle-views">
+                    
+                    <div class="acr-toggle-views" *ngIf="findByType===false">
                         <a routerLink="/listing-grid" class="active" placement="top" ngbTooltip="Grid"><i class="fas fa-th-large"></i></a>
                         <a routerLink="/listing-list" placement="top" ngbTooltip="List"><i class="fas fa-th-list"></i></a>
                         <a routerLink="/listing-map" placement="top" ngbTooltip="Map"><i class="fas fa-map"></i></a>
                     </div>
                 </div>
                 <!-- Controls End -->
-                <div class="row">
+
+                <!--Authentication SCRAPED -->
+                <div *ngIf="premium===false"class="alert alert-danger">
+                    you're are not allowed to see premium ads 
+                </div>
+
+                <!-- NO SERACH-->
+                <div class="row" *ngIf="!searchResults">
+
+                    <div *ngIf="ads?.length===0" class="alert alert-danger">
+                        Sorry your search did not return any data, please try again
+                    </div>
+                   
                     <!-- Listing Start -->
                     <div class="col-md-6" *ngFor="let item of ads | paginate: { itemsPerPage: 6, currentPage: page }">
                         <div class="listing">
                             <div class="listing-thumbnail">
-                                <a routerLink="/listing-details-v1/{{item.id}}"><img [src]="item.property.photo[1]" [alt]="item.title"></a>
+                                <a routerLink="/listing-details-v1/{{item.id}}"><img [src]="item.property.photo[0]" [alt]="item.title"></a>
                                 <div class="listing-badges">
                                     <span class="listing-badge sale" *ngIf="item.typeAd=='Sale'">On Sale</span>
                                     <span class="listing-badge rent" *ngIf="item.typeAd=='Rental'">Rental</span>
@@ -44,7 +52,7 @@
                             </div>
                             <div class="listing-body">
                                 <div class="listing-author">
-                                    <img src="assets/img/agents/1.jpg" [alt]="item.username">
+                                    <img src="assets/img/people/malek.jpg" [alt]="item.username">
                                     <div class="listing-author-body">
                                         <p> <a routerLink="/agent-details/{{item.id}}">{{item.username}}</a> </p>
                                         <span class="listing-date">{{ formatDate(item.created_at) }}</span>
@@ -62,17 +70,19 @@
                                 </div>
                                 <h5 class="listing-title"> <a routerLink="/listing-details-v1/{{item.id}}" [title]="item.title">{{item.title}}</a> </h5>
                                 <span class="listing-price">{{item.price  | number:'1.2-2'}}$ <span *ngIf="item.typeAd=='Rental'">/month</span> </span>
-                                <p class="listing-text">{{item.description}}</p>
+                                <p class="listing-text"></p>
                                 <div class="acr-listing-icons">
+
+                                    <div class="acr-listing-icon" placement="top" ngbTooltip="Location">
+                                        <i class="flaticon-location"></i>
+                                        <span class="acr-listing-icon-value">{{item.property.region}}</span>
+                                    </div>
+
                                     <div class="acr-listing-icon" placement="top" ngbTooltip="Rooms">
                                         <i class="flaticon-home-1"></i>
                                         <span class="acr-listing-icon-value">{{item.property.rooms}}</span>
                                     </div>
-                                    <div class="acr-listing-icon" placement="top" ngbTooltip="Garage">
-                                        <i class="flaticon-garage"></i>
-                                        <span class="acr-listing-icon-value" *ngIf="item.property.garage; else noGarage">Garage</span>
-                                        <ng-template #noGarage>No garage</ng-template>
-                                    </div>
+                                    
                                     <div class="acr-listing-icon" placement="top" ngbTooltip="Square Feet">
                                         <i class="flaticon-ruler"></i>
                                         <span class="acr-listing-icon-value">{{item.property.size | number:'1.2-2'}} m²</span>
@@ -80,18 +90,208 @@
                                 </div>
                                 <div class="listing-gallery-wrapper">
                                     <a routerLink="/listing-details-v1/{{item.id}}" class="btn-custom btn-sm secondary">View Details</a>
-                                    <a routerLink="/" placement="top" ngbTooltip="Gallery" class="listing-gallery"> <i class="fas fa-camera"></i> </a>
+                                    <a  placement="top" ngbTooltip="Gallery" class="listing-gallery" (click)="openCarouselModal(item)"> <i class="fas fa-camera"></i> </a>
                                 </div>
                             </div>
                         </div>
+
+                        <!--Gallery MODAL -->
+            
+                        <ng-template #carouselModalContent let-modal>
+                            <div class="modal-header">
+
+                                <div class="title-container">
+                                    <span>{{selectedListing?.typeAd}}</span>
+                                    <h3>${{selectedListing?.price | number:'1.2-2'}}</h3>
+                                </div>
+                                <div class="price-container">
+                                    <div class="acr-listing-icons">
+                                        <div class="acr-listing-icon">
+                                            <i class="flaticon-home-1"></i>
+                                            <span>Rooms</span>
+                                            <span class="acr-listing-icon-value">{{selectedListing?.property.rooms}}</span>
+                                        </div>
+                                
+                                        <div class="acr-listing-icon">
+                                            <i class="flaticon-ruler"></i>
+                                            <span>Sqft</span>
+                                            <span class="acr-listing-icon-value">{{selectedListing?.property.size | number:'1.2-2'}} m²</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                            <ngb-carousel [showNavigationArrows]="true" [showNavigationIndicators]="true" fullscreen>
+                                <ng-template ngbSlide *ngFor="let image of selectedListing?.property.photo">
+                                <img [src]="image" alt="Carousel Image">
+                                </ng-template>
+                            </ngb-carousel>
+                            </div>
+                        </ng-template>
+
+
                     </div>
                     <!-- Listing End -->
                 </div>
                 <!-- Pagination Start -->
                 <div class="pagination">
-                    <pagination-controls previousLabel="Previous" nextLabel="Next" (pageChange)="page = $event"></pagination-controls>
+                    <pagination-controls previousLabel="Previous" nextLabel="Next" (pageChange)="page = $event" *ngIf="!searchResults && ads && ads.length!==0" ></pagination-controls>
                 </div>
                 <!-- Pagination End -->
+
+                <!-- NO SERACH-->
+
+
+
+                <!-- SEARCH-->
+
+                <div class="row" *ngIf="searchResults">
+                    <div *ngIf="searchResults.length===0" class="alert alert-danger">
+                        Sorry your search did not return any data, please try again
+                    </div>
+                   
+                    <!-- Listing Start -->
+                    <div class="col-md-6" *ngFor="let item of searchResults | paginate: { itemsPerPage: 6, currentPage: page }">
+                        <div class="listing">
+                            <div class="listing-thumbnail">
+                                <ng-container *ngIf="item.scraped === 0; else scrapedLink">
+                                    <a routerLink="/listing-details-v1/{{item.id}}"><img [src]="item.property.photo[0]" [alt]="item.title"></a>
+                                </ng-container>
+
+                                <ng-template #scrapedLink>
+                                    <a [href]="item.foreignAdUrl">
+                                        <img [src]="item.property.photo[0]" [alt]="item.title">
+                                    </a>
+                                </ng-template>
+
+                                <div class="listing-badges">
+                                    <span class="listing-badge sale" *ngIf="item.typeAd=='Sale'">On Sale</span>
+                                    <span class="listing-badge rent" *ngIf="item.typeAd=='Rental'">Rental</span>
+                                </div>
+                                <div class="listing-controls" *ngIf="!item.scraped">
+                                    <a routerLink="/" class="favorite"><i class="far fa-heart"></i></a>
+                                </div>
+                            </div>
+                            <div class="listing-body">
+                                
+                                <div class="listing-author">
+                                    <ng-container  *ngIf="!item.scraped; else authorImg">
+                                        <img src="assets/img/people/malek.jpg" [alt]="item.username">
+                                    </ng-container>
+                                    <ng-template #authorImg>
+                                        <img src="assets/img/people/mubaweb.png">
+                                    </ng-template>
+
+                                   
+                                    <div class="listing-author-body">
+                                        <ng-container *ngIf="!item.scraped; else authorLink">
+                                            <p> <a routerLink="/agent-details/{{item.id}}">{{item.username}}</a> </p>
+                                            <span class="listing-date">{{ formatDate(item.created_at) }}</span>
+                                        </ng-container>
+                                        <ng-template #authorLink>
+                                            <p> <a [href]="item.foreignAdUrl">mubawab.tn</a> </p>
+                                        </ng-template>
+                                    </div>
+                                    <div class="dropdown options-dropdown" ngbDropdown *ngIf="!item.scraped">
+                                        <a href="javascript:void(0)" ngbDropdownToggle><i class="fas fa-ellipsis-v"></i></a>
+                                        <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right">
+                                            <ul>
+                                                <li> <a href="tel:{{item.phone}}"> <i class="fas fa-phone"></i> Call Agent</a> </li>
+                                                <li> <a href="mailto:{{item.email}}"> <i class="fas fa-envelope"></i> Send Message</a> </li>
+                                                <li> <a routerLink="/listing-details-v1/{{item.id}}"> <i class="fas fa-bookmark"></i> Book Tour</a> </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            
+                                <ng-container *ngIf="!item.scraped; else adLink">
+                                    <h5 class="listing-title"> <a routerLink="/listing-details-v1/{{item.id}}" [title]="item.title">{{item.title}}</a> </h5>
+                                </ng-container>
+                                <ng-template #adLink>
+                                    <h5 class="listing-title"> <a [href]="item.foreignAdUrl" [title]="item.title">{{item.title}}</a> </h5>
+                                </ng-template>
+                                <span class="listing-price">{{item.price  | number:'1.2-2'}}$ <span *ngIf="item.typeAd=='Rental'">/month</span> </span>
+                                <p class="listing-text"></p>
+                                <div class="acr-listing-icons">
+                                    <div class="acr-listing-icon" placement="top" ngbTooltip="Location">
+                                        <i class="flaticon-location"></i>
+                                        <span class="acr-listing-icon-value">{{item.property.region}}</span>
+                                    </div>
+                                    
+                                    <div class="acr-listing-icon" placement="top" ngbTooltip="Rooms">
+                                        <i class="flaticon-home-1"></i>
+                                        <span class="acr-listing-icon-value">{{item.property.rooms}}</span>
+                                    </div>
+                                   
+                                    <div class="acr-listing-icon" placement="top" ngbTooltip="Square Feet">
+                                        <i class="flaticon-ruler"></i>
+                                        <span class="acr-listing-icon-value">{{item.property.size | number:'1.2-2'}} m²</span>
+                                    </div>
+                                </div>
+                                <div class="listing-gallery-wrapper">
+                                    <ng-container *ngIf="!item.scraped; else adDetails">
+                                        <a routerLink="/listing-details-v1/{{item.id}}" class="btn-custom btn-sm secondary">View Details</a>
+                                        <a  placement="top" ngbTooltip="Gallery" class="listing-gallery" (click)="openCarouselModal(item)"> <i class="fas fa-camera"></i> </a>
+                                    </ng-container>
+                                    <ng-template #adDetails>
+                                        <a [href]="item.foreignAdUrl" class="btn-custom btn-sm secondary">Go to website</a>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Gallery MODAL -->
+                
+                        <ng-template #carouselModalContent let-modal>
+                            <div class="modal-header">
+                                
+                                <div class="title-container">
+                                    <span>{{selectedListing?.typeAd}}</span>
+                                    <h3>${{selectedListing?.price | number:'1.2-2'}}</h3>
+                                </div>
+                                <div class="price-container">
+                                    <div class="acr-listing-icons">
+                                        <div class="acr-listing-icon">
+                                            <i class="flaticon-home-1"></i>
+                                            <span>Rooms</span>
+                                            <span class="acr-listing-icon-value">{{selectedListing?.property.rooms}}</span>
+                                        </div>
+                                
+                                        <div class="acr-listing-icon">
+                                            <i class="flaticon-ruler"></i>
+                                            <span>Sqft</span>
+                                            <span class="acr-listing-icon-value">{{selectedListing?.property.size | number:'1.2-2'}} m²</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                            <ngb-carousel [showNavigationArrows]="true" [showNavigationIndicators]="true" fullscreen>
+                                <ng-template ngbSlide *ngFor="let image of selectedListing?.property.photo">
+                                <img [src]="image" alt="Carousel Image">
+                                </ng-template>
+                            </ngb-carousel>
+                            </div>
+                        </ng-template>
+
+
+                    </div>
+                    <!-- Listing End -->
+                </div>
+                <!-- Pagination Start -->
+                <div class="pagination">
+                    <pagination-controls previousLabel="Previous" nextLabel="Next" (pageChange)="page = $event" *ngIf="searchResults && searchResults.length!==0" ></pagination-controls>
+                </div>
+                <!-- Pagination End -->
+
+                <!-- SEARCH-->
             </div>
             <!-- Posts End -->
         </div>

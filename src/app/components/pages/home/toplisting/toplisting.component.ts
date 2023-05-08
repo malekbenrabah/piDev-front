@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import listing from '../../../../data/listings.json';
 import agents from '../../../../data/agents.json';
+import { PropertyService } from 'src/app/shared/properties/property.service';
+import { advertisement } from 'src/app/shared/model/advertisement';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-toplisting',
@@ -8,9 +11,10 @@ import agents from '../../../../data/agents.json';
   styleUrls: ['./toplisting.component.css']
 })
 export class ToplistingComponent implements OnInit {
+  @ViewChild('carouselModalContent') carouselModalContent: any;
 
-  constructor() { }
-  public listing = listing;
+  constructor(private propertyService:PropertyService, private modalService: NgbModal) { }
+  //public listing = listing;
   public agents = agents;
   public getAuthor(items: string | any[]) {
     var elems = agents.filter((item: { id: string; }) => {
@@ -36,7 +40,28 @@ export class ToplistingComponent implements OnInit {
       },
     ]
   }
+  public listing:advertisement[];
   ngOnInit(): void {
+    this.propertyService.getTopAds().subscribe(res=>{console.log(res,"top listings"); this.listing=res});
   }
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    };
+    const formatter = new Intl.DateTimeFormat('en-US', options);
+    return formatter.format(date);
+  }
+
+  //gallery Modal 
+  selectedListing: any;
+  openCarouselModal(item: any){
+    this.selectedListing = item;
+    const modalRef = this.modalService.open(this.carouselModalContent, { size: 'lg', centered: true });
+  }
+  
 
 }

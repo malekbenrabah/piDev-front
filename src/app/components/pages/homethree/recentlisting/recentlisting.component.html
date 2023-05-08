@@ -13,7 +13,7 @@
             <div class="col-lg-4" *ngFor="let item of listing | slice:0:3">
                 <div class="listing">
                     <div class="listing-thumbnail">
-                        <a routerLink="/listing-details-v1/{{item.id}}"><img [src]="item.gridimg"
+                        <a routerLink="/listing-details-v1/{{item.id}}"><img [src]="item.property.photo[0]"
                                 [alt]="item.title"></a>
                         <div class="listing-badges">
                             <span class="listing-badge featured" *ngIf="item.star"><i class="fas fa-star"></i></span>

@@ -5,12 +5,12 @@
         <div class="banner-item">
             <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="settings" class="banner-slider">
                 <div ngxSlickItem class="banner-inner bg-cover bg-center" style="background-image: url('{{image}}')"
-                    *ngFor="let image of listingdetails.property.photo"></div>
+                    *ngFor="let image of listingdetails?.property.photo"></div>
             </ngx-slick-carousel>
             <div class="acr-listing-details">
                 <div class="acr-listing-section">
                     <div class="acr-listing-nav">
-                        <a href="#" class="btn-custom secondary">Print Listing</a>
+                        <a  class="btn-custom secondary" (click)="openCarouselModal()">Print Listing</a>
                     </div>
                     <div class="acr-listing-section-body">
                         <div class="acr-listing-section-price">
@@ -44,6 +44,36 @@
                         <p>{{listingdetails.description}}</p>
                     </div>
                 </div>
+                <!--
+                <div >
+                    <div class="acr-listing-meta">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-3 col-sm-3">
+                                <div class="acr-listing-meta-item">
+                                    
+                                    rating start
+                                    <ng-template #t let-fill="fill">
+                                        <span class="star" [class.full]="fill === 100">
+                                            <span class="half" [style.width.%]="fill">&hearts;</span>&hearts;
+                                        </span>
+                                    </ng-template>
+
+                                    <ngb-rating [(rate)]="currentRate" [starTemplate]="t" [readonly]="true" [max]="5"></ngb-rating>
+                                    
+                                    <hr>
+                                    <pre>Rate: <b>{{currentRate}}</b></pre>
+                                    <button class="btn btn-sm btn-outline-primary mr-2" (click)="currentRate = 1.35">1.35</button>
+                                    <button class="btn btn-sm btn-outline-primary mr-2" (click)="currentRate = 4.72">4.72</button>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-3 col-sm-3">
+
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                
                 <div class="acr-listing-section">
                     <div class="acr-listing-controls">
                         <a routerLink="/" class="acr-listing-control">
@@ -57,20 +87,27 @@
                             <span>Schedule a Tour</span>
                         </a>
                     </div>
-                    <!-- property features
+                    <!-- Rating -->
                     <div class="acr-listing-section-body">
                         <div class="acr-listing-meta">
                             <div class="row">
-                                <div class="col-lg-6 col-md-3 col-sm-3" *ngFor="let feature of item.features | slice:0:4">
+                                <div class="col-lg-6 col-md-3 col-sm-3">
                                     <div class="acr-listing-meta-item">
-                                        <span>{{feature.label}}</span>
-                                        <p>{{feature.value}}</p>
+                                        <ng-template #t let-fill="fill">
+                                            <span class="star" [class.full]="fill === 100">
+                                                <span class="half" [style.width.%]="fill">&hearts;</span>&hearts;
+                                            </span>
+                                        </ng-template>
+                
+                                        <ngb-rating [(rate)]="currentRate" [starTemplate]="t" [readonly]="true" [max]="5"></ngb-rating>
                                     </div>
                                 </div>
+                        
                             </div>
                         </div>
                     </div>
-                    -->
+                       
+                    
                 </div>
             </div>
         </div>
@@ -79,6 +116,49 @@
             <i class="slider-next fas fa-arrow-right slick-arrow"></i>
         </div>
     </div>
+
+    <!--Gallery MODAL -->
+            
+    <ng-template #carouselModalContent let-modal>
+        <div class="modal-header">
+            <div class="title-container">
+                <span>{{listingdetails.typeAd}}</span>
+                <h3>${{listingdetails.price | number:'1.2-2'}}</h3>
+            </div>
+            <div class="price-container">
+                <div class="acr-listing-icons">
+                    <div class="acr-listing-icon">
+                        <i class="flaticon-home-1"></i>
+                        <span>Rooms</span>
+                        <span class="acr-listing-icon-value">{{listingdetails.property.rooms}}</span>
+                    </div>
+            
+                    <div class="acr-listing-icon">
+                        <i class="flaticon-ruler"></i>
+                        <span>Sqft</span>
+                        <span class="acr-listing-icon-value">{{listingdetails.property.size | number:'1.2-2'}} m²</span>
+                    </div>
+                </div>
+            </div>
+        
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+        <ngb-carousel [showNavigationArrows]="true" [showNavigationIndicators]="true" fullscreen>
+            <ng-template ngbSlide *ngFor="let image of listingdetails?.property.photo">
+            <img [src]="image" alt="Carousel Image">
+            </ng-template>
+        </ngb-carousel>
+        </div>
+    </ng-template>
+    <!-- END GALLERY MODAL-->
+
+
+
+
+
     <!-- Banner End -->
     <div class="section listing-wrapper">
         <div class="container">
@@ -87,6 +167,8 @@
                 <div class="col-lg-8">
                     <!-- Content Start -->
                     <div class="listing-content" [innerHtml]="listingdetails.description"></div>
+                    
+
                     <!-- Content End -->
                     <!-- Price Range In the area Start -->
                     <div class="section">
@@ -153,6 +235,7 @@
                         </div>
                     </div>
                     -->
+                   <!--
                     <div class="section pt-0">
                         <h4>Property Video</h4>
                         <p>
@@ -163,7 +246,7 @@
                                 src="https://www.youtube.com/embed/Sz_1tkcU0Co"></iframe>
                         </div>
                     </div>
-                    
+                    -->
                     <!-- property history -->
                     <!--
                     <div class="section pt-0 acr-listing-history">
@@ -187,31 +270,51 @@
                     </div>
                     -->
                     <div class="section pt-0">
-                        <h4>Schedule a Tour</h4>
-                        <form>
+                        <h4>Contact Owner</h4>
+                        <div *ngIf="showAlert" class="alert alert-danger">
+                            Please fill out all required fields.
+                        </div>
+                        <div *ngIf="showAlertSucess" class="alert alert-success">
+                            {{ alertMessage }}
+                        </div>
+                        <form #contactForm="ngForm">
                             <div class="row">
                                 <div class="col-md-6 form-group">
-                                    <input type="text" class="form-control" placeholder="Full Name" name="fname"
-                                        value="">
+                                    <input type="text" class="form-control" placeholder="First Name" [(ngModel)]="firstName" name="firstName" required #firstNameField="ngModel" [ngClass]="{'is-invalid': firstNameField.touched && firstNameField.invalid}" >
+                                    <div class="invalid-feedback" *ngIf="firstNameField.touched && firstNameField.invalid">
+                                        Please enter your first name
+                                    </div>
                                 </div>
+
                                 <div class="col-md-6 form-group">
-                                    <input type="email" class="form-control" placeholder="Email Address" name="email"
-                                        value="">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <input type="text" class="form-control" placeholder="Phone Number" name="phone"
-                                        value="">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <input type="text" class="form-control" placeholder="Date" name="date" value="">
+                                    <input type="text" class="form-control" placeholder="Last Name" [(ngModel)]="lastName" name="lastName" required #lastNameField="ngModel" [ngClass]="{'is-invalid': lastNameField.touched && lastNameField.invalid}">
+                                    <div class="invalid-feedback" *ngIf="lastNameField.touched && lastNameField.invalid">
+                                        Please enter your last name
+                                    </div>
                                 </div>
                                 <div class="col-md-12 form-group">
-                                    <textarea class="form-control" placeholder="Type your comment..." name="comment"
-                                        rows="7"></textarea>
+                                    <input type="email" class="form-control" placeholder="Email" [(ngModel)]="email" name="email" #emailField="ngModel" [ngClass]="{'is-invalid': emailField.touched && emailField.invalid}" required email>
+                                    <div class="invalid-feedback" *ngIf="emailField.touched && emailField.invalid">
+                                        <div *ngIf="emailField.errors.required">Please enter your email</div>
+                                        <div *ngIf="emailField.errors.email">Please enter a valid email</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-12 form-group">
+                                    <textarea class="form-control" placeholder="Type your comment..." rows="7" [(ngModel)]="message" name="message"  required #messageField="ngModel"  [ngClass]="{'is-invalid': messageField.touched && messageField.invalid}"></textarea>
+                                    <div class="invalid-feedback" *ngIf="messageField.touched && messageField.invalid">Please enter your message</div>
+
                                 </div>
                             </div>
-                            <button type="submit" class="btn-custom primary" name="button">Schedule Tour</button>
+                            <!--
+                            <button type="submit" class="btn-custom primary" name="button" (click)="contactOwner()">Contact owner</button>
+                            -->
+                            <button type="submit" class="btn-custom primary" name="button" [disabled]="loading" (click)="contactOwner()">
+                                <span *ngIf="!loading">Contact owner</span>
+                                <span *ngIf="loading"><i class="fa fa-spinner fa-spin"></i> Sending...</span>
+                            </button>
                         </form>
+                       
                     </div>
                     <!-- Pagination Start -->
                     <!--
@@ -245,11 +348,11 @@
                             <h5>Meet The Agent</h5>
                             <!-- Author Start -->
                             <div class="media sidebar-author listing-agent">
-                                <a routerLink="/agent-details/{{listingdetails.id}}"> <img [src]="listingdetails.property.photo[1]"
+                                <a routerLink="/agent-details/{{listingdetails.id}}"> <img src="assets/img/people/malek.jpg"
                                         [alt]="listingdetails.username"></a>
                                 <div class="media-body">
                                     <h6> <a routerLink="/agent-details/{{listingdetails.id}}">{{listingdetails.username}}</a> </h6>
-                                    <span>tessst</span>
+                                    <span>Plateform User</span>
                                 </div>
                                 <div class="dropdown options-dropdown" ngbDropdown>
                                     <a href="javascript:void(0)" ngbDropdownToggle><i class="fas fa-ellipsis-v"></i></a>
@@ -299,6 +402,7 @@
                             </div>
                             <!-- Listing End -->
                         </div>
+                        <!--
                         <div class="sidebar-widget">
                             <h5>Mortgage Calculator</h5>
                             <form>
@@ -328,6 +432,7 @@
                                 <button type="submit" class="btn-custom btn-block" name="button">Calculate</button>
                             </form>
                         </div>
+                        -->
                     </div>
                 </div>
                 <!-- Sidebar End -->

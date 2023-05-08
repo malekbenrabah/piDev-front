@@ -9,64 +9,100 @@
             <h5 class="custom-primary">Trending</h5>
             <h2 class="title">Our Top Listings</h2>
         </div>
-        <ngx-slick-carousel #slickModal="slick-carousel" [config]="settings" class="top-listings-slider">
+        <ngx-slick-carousel #slickModal="slick-carousel" [config]="settings" class="top-listings-slider" >
             <!-- Top Item Start -->
             <div ngxSlickItem class="acr-top-listing-item bg-cover dark-overlay bg-center"
-                style="background-image: url('{{item.gridimg}}')" *ngFor="let item of listing | slice:0:4">
+                style="background-image: url('{{item.property.photo[0]}}')" *ngFor="let item of listing | slice:0:4" >
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="acr-top-listing-body listing">
                             <div class="listing-body">
                                 <h5 class="listing-title"> <a routerLink="/listing-details-v1/{{item.id}}"
                                         [title]="item.title" tabindex="0">{{item.title}}</a> </h5>
-                                <div class="listing-author" *ngFor="let author of getAuthor(item.author)">
-                                    <img [src]="author.img" [alt]="author.name">
+                                <div class="listing-author" >
+                                    <img src="assets/img/people/malek.jpg" [alt]="item.username">
                                     <div class="listing-author-body">
-                                        <p> <a routerLink="/agent-details/{{author.id}}">{{author.name}}</a> </p>
-                                        <span class="listing-date">{{item.postdate}}</span>
+                                        <p> <a routerLink="/agent-details/1">{{item.username}}</a> </p>
+                                        <span class="listing-date">{{ formatDate(item.created_at) }}</span>
                                     </div>
                                     <div class="dropdown options-dropdown" ngbDropdown>
                                         <a href="javascript:void(0)" ngbDropdownToggle><i
                                                 class="fas fa-ellipsis-v"></i></a>
                                         <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right">
                                             <ul>
-                                                <li> <a href="tel:{{author.phoneno}}"> <i class="fas fa-phone"></i> Call
-                                                        Agent</a> </li>
-                                                <li> <a href="mailto:{{author.emailid}}"> <i
-                                                            class="fas fa-envelope"></i> Send Message</a> </li>
-                                                <li> <a routerLink="/listing-details-v1/{{item.id}}"> <i
-                                                            class="fas fa-bookmark"></i> Book Tour</a> </li>
+                                                <li> <a href="tel:{{item.phone}}"> <i class="fas fa-phone"></i> Call Agent</a> </li>
+                                                <li> <a href="mailto:{{item.email}}"> <i class="fas fa-envelope"></i> Send Message</a> </li>
+                                                <li> <a routerLink="/listing-details-v1/{{item.id}}"> <i class="fas fa-bookmark"></i> Book Tour</a> </li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
-                                <span class="listing-price">{{item.price / item.emitime | number:'1.2-2'}}$ <span>/month</span>
-                                </span>
-                                <p class="listing-text">{{item.text}}</p>
+                                <span class="listing-price">{{item.price | number:'1.2-2'}}$ <span *ngIf="item.typeAd=='Rental'">/month</span> </span>
+                              
+                                <p class="listing-text">{{item.description}}</p>
                                 <div class="acr-listing-icons">
-                                    <div class="acr-listing-icon" placement="top" ngbTooltip="Beds">
-                                        <i class="flaticon-bedroom"></i>
-                                        <span class="acr-listing-icon-value">{{item.beds}}</span>
+                                    <div class="acr-listing-icon" placement="top" ngbTooltip="Location">
+                                        <i class="flaticon-location"></i>
+                                        <span class="acr-listing-icon-value">{{item.property.region}}</span>
                                     </div>
-                                    <div class="acr-listing-icon" placement="top" ngbTooltip="Bathrooms">
-                                        <i class="flaticon-bathroom"></i>
-                                        <span class="acr-listing-icon-value">{{item.bathrooms}}</span>
+                                    <div class="acr-listing-icon" placement="top" ngbTooltip="Rooms">
+                                        <i class="flaticon-home-1"></i>
+                                        <span class="acr-listing-icon-value">{{item.property.rooms}}</span>
                                     </div>
+                                
                                     <div class="acr-listing-icon" placement="top" ngbTooltip="Square Feet">
                                         <i class="flaticon-ruler"></i>
-                                        <span class="acr-listing-icon-value">{{item.area | number:'1.2-2'}}</span>
+                                        <span class="acr-listing-icon-value">{{item.property.size | number:'1.2-2'}} m²</span>
                                     </div>
                                 </div>
                                 <div class="listing-gallery-wrapper">
                                     <a routerLink="/listing-details-v1/{{item.id}}"
                                         class="btn-custom btn-sm secondary">View Details</a>
-                                    <a routerLink="/" placement="top" ngbTooltip="Gallery" class="listing-gallery"> <i
-                                            class="fas fa-camera"></i> </a>
+                                    <a  placement="top" ngbTooltip="Gallery" class="listing-gallery" (click)="openCarouselModal(item)"> <i class="fas fa-camera" ></i> </a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!--CAROUSEL GALLERY-->
+                <ng-template #carouselModalContent let-modal>
+                    <div class="modal-header">
+
+                        <div class="title-container">
+                            <span>{{selectedListing?.typeAd}}</span>
+                            <h3>${{selectedListing?.price | number:'1.2-2'}}</h3>
+                        </div>
+                        <div class="price-container">
+                            <div class="acr-listing-icons">
+                                <div class="acr-listing-icon">
+                                    <i class="flaticon-home-1"></i>
+                                    <span>Rooms</span>
+                                    <span class="acr-listing-icon-value">{{selectedListing?.property.rooms}}</span>
+                                </div>
+                        
+                                <div class="acr-listing-icon">
+                                    <i class="flaticon-ruler"></i>
+                                    <span>Sqft</span>
+                                    <span class="acr-listing-icon-value">{{selectedListing?.property.size | number:'1.2-2'}} m²</span>
+                                </div>
+                            </div>
+                        </div>
+                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                    <ngb-carousel [showNavigationArrows]="true" [showNavigationIndicators]="true" fullscreen>
+                        <ng-template ngbSlide *ngFor="let image of selectedListing?.property.photo">
+                        <img [src]="image" alt="Carousel Image">
+                        </ng-template>
+                    </ngb-carousel>
+                    </div>
+                </ng-template>
+
+
+
+
             </div>
             <!-- Top Item End -->
         </ngx-slick-carousel>

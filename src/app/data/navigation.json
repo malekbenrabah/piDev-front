@@ -1,7 +1,7 @@
 [
     {
         "id": 1,
-        "linkText": "Home Pages",
+        "linkText": "Home",
         "child": true,
         "icon":"home",
         "submenu": [
@@ -32,96 +32,9 @@
             }
         ]
     },
+
     {
         "id": 2,
-        "linkText": "Blog",
-        "child": true,
-        "icon":"writing-1",
-        "submenu": [
-            {
-                "id": 21,
-                "child": true,
-                "linkText": "Blog Archive",
-                "submenu": [
-                    {
-                        "id": 211,
-                        "link": "/blog-grid",
-                        "linkText": "Grid View"
-                    },
-                    {
-                        "id": 212,
-                        "link": "/blog-list",
-                        "linkText": "List View"
-                    }
-                ]
-            },
-            {
-                "id": 22,
-                "link": "/blog-single/1",
-                "linkText": "Blog Single"
-            }
-        ]
-    },
-    {
-        "id": 3,
-        "linkText": "Pages",
-        "child": true,
-        "icon":"layers",
-        "submenu": [
-            {
-                "id": 31,
-                "link": "/about",
-                "linkText": "About Us"
-            },
-            {
-                "id": 32,
-                "link": "/services",
-                "linkText": "Services"
-            },
-            {
-                "id": 33,
-                "link": "/faq",
-                "linkText": "FAQ"
-            },
-            {
-                "id": 34,
-                "link": "/pricing",
-                "linkText": "Pricing"
-            },
-            {
-                "id": 35,
-                "link": "/contact",
-                "linkText": "Contact Us"
-            },
-            {
-                "id": 36,
-                "link": "/coming-soon",
-                "linkText": "Coming Soon"
-            },
-            {
-                "id": 37,
-                "link": "/error-404",
-                "linkText": "404 Page"
-            },
-            {
-                "id": 38,
-                "link": "/login",
-                "linkText": "Login"
-            },
-            {
-                "id": 39,
-                "link": "/register",
-                "linkText": "Register"
-            },
-            {
-                "id": 310,
-                "link": "/legal",
-                "linkText": "Legal"
-            }
-        ]
-    },
-    {
-        "id": 4,
         "linkText": "Listings",
         "child": true,
         "icon":"list",
@@ -182,9 +95,98 @@
             }
         ]
     },
+
+    {
+        "id": 3,
+        "linkText": "Tender",
+        "child": true,
+        "icon":"writing-1",
+        "submenu": [
+            {
+                "id": 21,
+                "child": true,
+                "linkText": "Blog Archive",
+                "submenu": [
+                    {
+                        "id": 211,
+                        "link": "/blog-grid",
+                        "linkText": "Grid View"
+                    },
+                    {
+                        "id": 212,
+                        "link": "/blog-list",
+                        "linkText": "List View"
+                    }
+                ]
+            },
+            {
+                "id": 22,
+                "link": "/blog-single/1",
+                "linkText": "Blog Single"
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "linkText": "Forum",
+        "child": true,
+        "icon":"layers",
+        "submenu": [
+            {
+                "id": 31,
+                "link": "/about",
+                "linkText": "About Us"
+            },
+            {
+                "id": 32,
+                "link": "/services",
+                "linkText": "Services"
+            },
+            {
+                "id": 33,
+                "link": "/faq",
+                "linkText": "FAQ"
+            },
+            {
+                "id": 34,
+                "link": "/pricing",
+                "linkText": "Pricing"
+            },
+            {
+                "id": 35,
+                "link": "/contact",
+                "linkText": "Contact Us"
+            },
+            {
+                "id": 36,
+                "link": "/coming-soon",
+                "linkText": "Coming Soon"
+            },
+            {
+                "id": 37,
+                "link": "/error-404",
+                "linkText": "404 Page"
+            },
+            {
+                "id": 38,
+                "link": "/login",
+                "linkText": "Login"
+            },
+            {
+                "id": 39,
+                "link": "/register",
+                "linkText": "Register"
+            },
+            {
+                "id": 310,
+                "link": "/legal",
+                "linkText": "Legal"
+            }
+        ]
+    },
     {
         "id": 5,
-        "linkText": "Agents",
+        "linkText": "Financial guidance",
         "child": true,
         "icon":"headset",
         "submenu": [
@@ -224,7 +226,7 @@
     },
     {
         "id": 6,
-        "linkText": "Agency",
+        "linkText": "Agents",
         "child": true,
         "icon":"company",
         "submenu": [

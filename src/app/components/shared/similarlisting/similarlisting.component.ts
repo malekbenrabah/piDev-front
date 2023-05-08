@@ -22,7 +22,7 @@ export class SimilarlistingComponent implements OnInit {
     this.propertyService.getSimilarAds(Number(this.router.snapshot.params.id)).subscribe((data:advertisement[])=>{
       this.list=data;
       console.log("id : "+Number(this.router.snapshot.params.id))
-      console.log("similar ads : "+JSON.stringify(this.list));
+      console.log(this.list,'Similar ADS');
     })
   }
 

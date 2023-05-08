@@ -1,0 +1,35 @@
+.star {
+    position: relative!important;
+    display: inline-block!important;
+    font-size: 3rem!important;
+    color: #d3d3d3!important;
+}
+
+
+
+.full {
+color: #FF0F59!important;
+}
+
+.half {
+position: absolute!important;
+display: inline-block!important;
+overflow: hidden!important;
+color: #FF0F59!important;
+}
+
+
+/*MODAL */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+}
+  
+.title-container {
+flex-grow: 1;
+}
+  
+.price-container {
+display: flex;
+flex-direction: column;
+}

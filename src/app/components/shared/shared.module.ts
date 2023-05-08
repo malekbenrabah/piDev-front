@@ -27,6 +27,8 @@ import { ShopsidebarComponent } from './shopsidebar/shopsidebar.component';
 import { UserbreadcrumbComponent } from './userbreadcrumb/userbreadcrumb.component';
 import { RelatedpostComponent } from './relatedpost/relatedpost.component';
 import { SimilarlistingComponent } from './similarlisting/similarlisting.component';
+import { FormsModule , ReactiveFormsModule} from '@angular/forms';
+
 
 
 
@@ -38,7 +40,10 @@ import { SimilarlistingComponent } from './similarlisting/similarlisting.compone
     SlickCarouselModule,
     NgbModule,
     BreadcrumbModule,
-    NgSelect2Module
+    NgSelect2Module,
+    FormsModule,
+    NgbModule,
+    ReactiveFormsModule
   ],
   exports: [AppComponent, BlockctaComponent, BlogsidebarComponent, BluectaComponent, BreadcrumbComponent, CalculatorComponent, FooterComponent, FootertwoComponent, FormboxComponent, HeaderComponent, HeadertwoComponent, HeaderthreeComponent, HeaderfourComponent, HeaderfiveComponent, ListingsidebarComponent, ShopsidebarComponent, UserbreadcrumbComponent,RelatedpostComponent,SimilarlistingComponent]
 })

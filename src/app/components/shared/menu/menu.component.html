@@ -1,5 +1,5 @@
 <!-- Logo -->
-<a class="navbar-brand" routerLink="/"> <img src="assets/img/logo.png" alt="logo"> </a>
+<a class="navbar-brand" routerLink="/"> <img src="assets/images/vendor2.png" alt="logo"> </a>
 <!-- Menu -->
 <ul class="navbar-nav">
     <li class="menu-item" [ngClass]="item.child == true ? 'menu-item-has-children' : ''"
@@ -19,6 +19,7 @@
             </li>
         </ul>
     </li>
+    <!--
     <li class="menu-item menu-item-has-children mega-menu-wrapper">
         <a routerLink="/">Pages</a>
         <ul class="submenu">
@@ -62,6 +63,7 @@
             </li>
         </ul>
     </li>
+    -->
     <li class="menu-item" [ngClass]="item.child == true ? 'menu-item-has-children' : ''"
         *ngFor="let item of navigation | slice:3:10">
         <a href="javascript:void(0)" *ngIf="item.child">{{item.linkText}}</a>

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import listing from '../../../../data/listings.json';
 import agents from '../../../../data/agents.json';
 import { PropertiesService } from 'src/app/shared/properties/properties.service';
 import { advertisement } from 'src/app/shared/model/advertisement';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-listingslider',
@@ -10,8 +11,9 @@ import { advertisement } from 'src/app/shared/model/advertisement';
   styleUrls: ['./listingslider.component.css']
 })
 export class ListingsliderComponent implements OnInit {
+  @ViewChild('carouselModalContent') carouselModalContent: any;
 
-  constructor(private propertiesService:PropertiesService) { }
+  constructor(private propertiesService:PropertiesService, private modalService: NgbModal) { }
   ads:advertisement[];
   // Settings
   settings = {
@@ -63,4 +65,13 @@ export class ListingsliderComponent implements OnInit {
     const formatter = new Intl.DateTimeFormat('en-US', options);
     return formatter.format(date);
   }
+
+ //gallery Modal 
+ selectedListing: any;
+ openCarouselModal(item: any){
+   this.selectedListing = item;
+   const modalRef = this.modalService.open(this.carouselModalContent, { size: 'lg', centered: true });
+ }
+
+
 }

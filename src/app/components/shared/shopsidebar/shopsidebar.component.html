@@ -9,42 +9,146 @@
         </div>
         <div class="acr-collapsable">
             <div class="acr-filter-form">
-                <form method="post">
+                <form>
+                    <div class="acr-button form-group">
+                        
+                        <button  class="btn btn-warning scraped" (click)="searchSraped()">
+                            <span id="scraped-label"><i class="flaticon-search"></i>Discover foreign ads</span>
+                        </button>
+
+                    </div>
+
+
                     <div class="acr-custom-select form-group">
                         <label>Location: </label>
-                        <ng-select2 [data]="locationlist" [options]="options">
+                        <ng-select2 [data]="locationlist" [options]="options" [(ngModel)]="location" name="location"
+                         (ngModelChange)="location === 'Any Location' ? location = undefined : null">
                         </ng-select2>
                     </div>
                     <div class="acr-custom-select form-group">
                         <label>Status: </label>
-                        <ng-select2 [data]="statuslist" [options]="options">
+                        <ng-select2 [data]="statuslist" [options]="options" [(ngModel)]="status" name="status"
+                        (ngModelChange)="status === 'Any Status' ? status = undefined : null">
                         </ng-select2>
                     </div>
+
+                    <div class="acr-custom-select form-group">
+                        <label>Type: </label>
+                        <ng-select2 [data]="typelist" [options]="options" [(ngModel)]="type" name="type" 
+                        (ngModelChange)="updateType($event)"
+                       >
+                        </ng-select2>
+                    </div>
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="price-range-slider">
+                                <p class="range-value">
+                                  <input type="text" id="amount" readonly>
+                                </p>
+                                <div id="slider-range" class="range-bar"></div>
+                            </div>
+                        </div>
+                       
+                    </div>
+
+
+                    
+                    <!--
                     <div class="acr-custom-select form-group">
                         <label>Price Range: </label>
                         <ng-select2 [data]="pricerangelist" [options]="options">
                         </ng-select2>
                     </div>
+                    -->
+                    <!--
+                    <div class="acr-custom-select form-group price-range-container">
+                       
+                        <div class="price-range-selects">
+                            <div class="acr-custom-select">
+                               <label for="minPrice">Minimum</label>
+                              <ng-select2 [data]="pricerangelist" [options]="options" [(ngModel)]="minPrice" name="minPrice"></ng-select2>
+                            </div>
+                            <div class="acr-custom-select">
+                                <label for="minPrice">Maximum</label>
+                              <ng-select2 [data]="pricerangelist" [options]="options" [(ngModel)]="maxPrice" name="maxPrice"></ng-select2>
+                            </div>
+                        </div>
+                    </div>
+                    -->
+
+                    <div class="acr-custom-select form-group price-range-container">
+                        
+                        <div class="price-range-selects">
+                          <div class="acr-custom-select">
+                            <label for="minPrice">Min Price:</label>
+                            <ng-select2 [data]="pricerangelist" [options]="options" [(ngModel)]="minPrice" name="minPrice"></ng-select2>
+                          </div>
+                          <div class="acr-custom-select">
+                            <label for="maxPrice">Max Price:</label>
+                            <ng-select2 [data]="pricerangelist" [options]="options" [(ngModel)]="maxPrice" name="maxPrice"></ng-select2>
+                          </div>
+                        </div>
+                    </div>
+                      
+                    <div class="acr-custom-select form-group price-range-container">
+                        
+                        <div class="price-range-selects">
+                          <div class="acr-custom-select">
+                            <label for="minPrice">Min Size:</label>
+                            <ng-select2 [data]="pricerangelist" [options]="options" [(ngModel)]="minSize" name="minSize"></ng-select2>
+                          </div>
+                          <div class="acr-custom-select">
+                            <label for="maxPrice">Max Size:</label>
+                            <ng-select2 [data]="pricerangelist" [options]="options" [(ngModel)]="maxSize" name="maxSize"></ng-select2>
+                          </div>
+                        </div>
+                    </div>
+
                     <div class="acr-custom-select form-group">
-                        <label>Beds: </label>
-                        <ng-select2 [data]="bedslist" [options]="options">
+                        <label>Rooms</label>
+                        <ng-select2 [data]="bedslist" [options]="options" [(ngModel)]="rooms" name="rooms"
+                        (ngModelChange)="rooms === 'Any amount' ? rooms = null : null">
                         </ng-select2>
                     </div>
+
+                   
+                    <!--
                     <div class="acr-custom-select form-group">
-                        <label>Bathrooms: </label>
-                        <ng-select2 [data]="bathroomslist" [options]="options">
-                        </ng-select2>
+                        <label>Price Range</label>
+                        <input type="range" class="form-range" min="0" max="100" step="1" [value]="priceRange" (input)="onPriceRangeChange($event.target.value)" title="{{priceRange}}">
+                        <div class="d-flex justify-content-between">
+                            <span>$0</span>
+                            <span>$100</span>
+                        </div>
                     </div>
+                    -->
+
+                   <!--
                     <div class="acr-custom-select form-group">
-                        <label>Type: </label>
-                        <ng-select2 [data]="typelist" [options]="options">
-                        </ng-select2>
+                        <label>Price Range V2</label>
+                        <input type="range" class="form-range" min="0" max="100" step="1" [value]="maxPrice" (input)="onMaxPriceChange($event.target.value)" [ngStyle]="{'background': 'linear-gradient(to right, #000 0%, #000 ' + maxPrice + '%, #fff ' + maxPrice + '%, white 100%)'}">
+                        <input type="range" class="form-range" min="0" max="100" step="1" [value]="minPrice" (input)="onMinPriceChange($event.target.value)" [ngStyle]="{'background': 'linear-gradient(to right, #000 0%, #000 ' + minPrice + '%, #fff ' + minPrice + '%, white 100%)'}">
+                        <div class="d-flex justify-content-between">
+                            <span>$0</span>
+                            <span>$100</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Min: {{ minPrice }}</span>
+                            <span>Max: {{ maxPrice }}</span>
+                        </div>
                     </div>
-                    <button type="submit" class="btn-block btn-custom" name="button">Apply filters</button>
+                    --> 
+
+                   
+                      
+                    
+                    <button type="submit" class="btn-block btn-custom" name="button" (click)="search()">Apply filters</button>
                 </form>
             </div>
         </div>
     </div>
+    <!-- RECENT LISTINGS -->
     <div class="sidebar-widget">
         <div class="acr-collapse-trigger acr-custom-chevron-wrapper">
             <h5>Recent Listing</h5>
@@ -57,7 +161,7 @@
             <!-- Listing Start -->
             <div class="listing listing-list" *ngFor="let item of listing | slice:0:4">
                 <div class="listing-thumbnail">
-                    <a routerLink="/listing-details-v1/{{item.id}}"><img [src]="item.property.photo[1]" [alt]="item.title"></a>
+                    <a routerLink="/listing-details-v1/{{item.id}}"><img [src]="item.property.photo[0]" [alt]="item.title"></a>
                 </div>
                 <div class="listing-body">
                     <h6 class="listing-title"> <a routerLink="/listing-details-v1/{{item.id}}" [title]="item.title">{{item.title}}</a> </h6>
@@ -67,16 +171,55 @@
             <!-- Listing End -->
         </div>
     </div>
+    <!-- SCRAPING -->
+    <!--
     <div class="sidebar-widget">
         <div class="acr-collapse-trigger acr-custom-chevron-wrapper">
-            <h5>Mortgage Calculator</h5>
+            <h5>Discover other listings</h5>
             <div class="acr-custom-chevron">
                 <span></span>
                 <span></span>
             </div>
         </div>
         <div class="acr-collapsable">
-            <app-calculator></app-calculator>
+            <div class="acr-filter-form">
+                <form>
+                    <div class="acr-custom-select form-group">
+                        <label>Location: </label>
+                        <ng-select2 [data]="locationlist" [options]="options" [(ngModel)]="location" name="location"
+                         (ngModelChange)="location === 'Any Location' ? location = undefined : null">
+                        </ng-select2>
+                    </div>
+                    <div class="acr-custom-select form-group">
+                        <label>Status: </label>
+                        <ng-select2 [data]="statuslist" [options]="options" [(ngModel)]="status" name="status"
+                        (ngModelChange)="status === 'Any Status' ? status = undefined : null">
+                        </ng-select2>
+                    </div>
+
+                    <div class="acr-custom-select form-group">
+                        <label>Type: </label>
+                        <ng-select2 [data]="typelist" [options]="options" [(ngModel)]="type" name="type" 
+                        (ngModelChange)="type === 'Any Type' ? type = undefined : null">
+                        </ng-select2>
+                    </div>
+
+                    <div class="acr-custom-select form-group">
+                        <label>Price Range: </label>
+                        <ng-select2 [data]="pricerangelist" [options]="options">
+                        </ng-select2>
+                    </div>
+                    <div class="acr-custom-select form-group">
+                        <label>Rooms</label>
+                        <ng-select2 [data]="bedslist" [options]="options" [(ngModel)]="rooms" name="rooms"
+                        (ngModelChange)="rooms === 'Any amount' ? rooms = null : null">
+                        </ng-select2>
+                    </div>
+
+                    <button type="submit" class="btn-block btn-custom" name="button" (click)="searchSraped()">Discover</button>
+                </form>
+            </div>
         </div>
     </div>
+    -->
 </div>

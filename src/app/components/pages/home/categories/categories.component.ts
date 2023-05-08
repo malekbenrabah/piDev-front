@@ -6,6 +6,7 @@ import { advertisement } from 'src/app/shared/model/advertisement';
 import { PropertiesService } from 'src/app/shared/properties/properties.service';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { PropertyService } from 'src/app/shared/properties/property.service';
 
 @Component({
   selector: 'app-categories',
@@ -50,15 +51,17 @@ export class CategoriesComponent implements OnInit {
     }
     return { id: index + 1, type: type, image: image, icon: icon, title:title };
   });
+
+
   listing:advertisement[];
-  constructor(private properties:PropertiesService ) { }
+  constructor(private properties:PropertyService ) { }
   ngOnInit(): void {
-    console.log(this.typesWithImages);
-    this.getAds();
+    console.log(this.typesWithImages, 'types');
+    //this.getAds();
   }
   
   getAds(){
-    this.properties.getProperties().subscribe(res=>{console.log(res); this.listing=res});
+    this.properties.recentListings().subscribe(res=>{console.log(res, 'all ads in categories component'); this.listing=res});
   }
 
   getNbAdsByType(type:Type):Observable<number>{
@@ -70,7 +73,7 @@ export class CategoriesComponent implements OnInit {
       const filteredAds = this.listing.filter(ad => ad.property.type === type);
       return of(filteredAds.length);
     } else {
-      return this.properties.getProperties().pipe(
+      return this.properties.recentListings().pipe(
         map(listing => {
           this.listing = listing;
           const filteredAds = listing.filter(ad => ad.property.type === type);

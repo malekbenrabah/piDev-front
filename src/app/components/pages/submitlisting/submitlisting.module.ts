@@ -10,7 +10,8 @@ import { SubmitlistingComponent } from './submitlisting.component';
 
 import { SharedModule } from '../../shared/shared.module';
 import { ContentComponent } from './content/content.component'
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [SubmitlistingComponent, ContentComponent],
@@ -22,7 +23,8 @@ import { FormsModule } from '@angular/forms';
     NgxDropzoneModule,
     LeafletMarkerClusterModule,
     LeafletModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class SubmitlistingModule { }

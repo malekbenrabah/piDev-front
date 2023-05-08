@@ -5,7 +5,7 @@
         <div class="col-md-6" *ngFor="let item of list | slice:0:2">
             <div class="listing">
                 <div class="listing-thumbnail">
-                    <a routerLink="/listing-details-v1/{{item.id}}"><img [src]="item.property.photo" [alt]="item.title"></a>
+                    <a routerLink="/listing-details-v1/{{item.id}}"><img [src]="item.property.photo[0]" [alt]="item.title"></a>
                     <div class="listing-badges">
                         <!--<span class="listing-badge featured" *ngIf="item.star"><i class="fas fa-star"></i></span>-->
                         <span class="listing-badge sale" *ngIf="item.typeAd=='Sale'">On Sale</span>
@@ -18,7 +18,7 @@
                 </div>
                 <div class="listing-body">
                     <div class="listing-author">
-                        <img [src]="item.property.photo[0]" [alt]="item.username">
+                        <img src="assets/img/agents/1.jpg" [alt]="item.username">
                         <div class="listing-author-body">
                             <p> <a routerLink="/agent-details/{{item.id}}">{{item.username}}</a> </p>
                             <span class="listing-date">{{ formatDate(item.created_at) }}</span>
@@ -40,13 +40,13 @@
                     <h5 class="listing-title"> <a routerLink="/listing-details-v1/{{item.id}}"
                             [title]="item.title">{{item.title}}</a> </h5>
                     <span class="listing-price">{{item.price  | number:'1.2-2'}}$</span>
-                    <p class="listing-text">{{item.description}}</p>
+                    <p class="listing-text"></p>
                     <div class="acr-listing-icons">
-                        <div class="acr-listing-icon" placement="top" ngbTooltip="Beds">
+                        <div class="acr-listing-icon" placement="top" ngbTooltip="Rooms">
                             <i class="flaticon-home-1"></i>
-                            <span class="acr-listing-icon-value">{{item.rooms}}</span>
+                            <span class="acr-listing-icon-value">{{item.property.rooms}}</span>
                         </div>
-                        <div class="acr-listing-icon" placement="top" ngbTooltip="Bathrooms">
+                        <div class="acr-listing-icon" placement="top" ngbTooltip="Garage">
                             <i class="flaticon-garage"></i>
                             <span class="acr-listing-icon-value" *ngIf="item.property.garage; else noGarage">Garage</span>
                             <ng-template #noGarage>No garage</ng-template>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { advertisement } from 'src/app/shared/model/advertisement';
+import { PropertyService } from 'src/app/shared/properties/property.service';
 
 @Component({
   selector: 'app-banner',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BannerComponent implements OnInit {
 
-  constructor() { }
+  constructor(private propertyService:PropertyService) { }
   bannerpost = [
     {
       id: 1,
@@ -51,7 +53,12 @@ export class BannerComponent implements OnInit {
     nextArrow: '.banner .slider-next',
   }
 
+  listing:advertisement[];
   ngOnInit(): void {
+    this.propertyService.recentListings().subscribe((res:advertisement[])=>{
+      this.listing=res,
+      console.log(this.listing,'recent listings');
+    });
   }
 
 }

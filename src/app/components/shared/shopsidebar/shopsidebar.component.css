@@ -1,0 +1,117 @@
+.acr-button.form-group {
+    display: flex;
+    justify-content: center;
+}
+.scraped{
+    outline: none;
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 0 2px 9px 0px rgba(34,12,43, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;;
+    cursor: pointer;
+    transition: .3s;
+    z-index: 1;
+    border: 0;
+}
+#scraped-label{
+  padding: 0;
+  margin-right: 10px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  color: #101737;
+  z-index: 2;
+  transform: none;
+  pointer-events: auto;
+  
+}
+
+/* Price range select */
+/*
+.price-range-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.price-range-container .price-range-selects {
+  display: flex;
+}
+
+.price-range-container label {
+  margin-bottom: 5px;
+}
+
+.price-range-container .acr-custom-select {
+  margin-right: 10px;
+}
+
+.price-range-container .acr-custom-select:last-child {
+  margin-right: 0;
+}
+
+.price-range-container ng-select2 {
+  margin-bottom: 10px;
+}*/
+
+.price-range-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.price-range-label {
+  margin-bottom: 100px;
+}
+
+.price-range-selects {
+  display: flex;
+}
+
+.price-range-selects .acr-custom-select {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.price-range-selects .acr-custom-select:last-child {
+  margin-right: 0;
+}
+
+/* price range slider*/
+.range-value {
+  margin: 0;
+
+  .price-range-slider {
+    width: 100%;
+    float: left;
+    padding: 10px 20px;
+
+    .range-bar {
+      border: none;
+      background: #000;
+      height: 3px;
+      width: 96%;
+      margin-left: 8px;
+    }
+
+    .ui-slider-range {
+      background: #06b9c0;
+    }
+
+    .ui-slider-handle {
+      border: none;
+      border-radius: 25px;
+      background: #fff;
+      border: 2px solid #06b9c0;
+      height: 17px;
+      width: 17px;
+      top: -0.52em;
+      cursor: pointer;
+    }
+
+    .ui-slider-handle + span {
+      background: #06b9c0;
+    }
+  }
+}
+
+

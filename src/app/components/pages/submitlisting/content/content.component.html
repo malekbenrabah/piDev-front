@@ -5,6 +5,7 @@
             <!-- Tabs Start -->
            
             <div class="col-md-4">
+                <form  [formGroup]="myFormGroup" enctype="multipart/form-data">
                 <ul ngbNav #nav="ngbNav" class="nav nav-tabs tab-cards" id="submitListingTab" role="tablist">
                     <li [ngbNavItem]="1">
                         <a ngbNavLink> <span>01</span> Basic Information</a>
@@ -12,44 +13,68 @@
                             <div class="row">
                                
                                 <div class="col-md-6 form-group">
-                                    <label>Advertisement Name</label>
-                                    <input type="text" class="form-control" placeholder="Property Name" name="nameA" [(ngModel)]="nameA">
+                                    <label>Advertisement Tile</label>
+                                    <input type="text" class="form-control" placeholder="Advertisement title" name="title" formControlName="title">
+                                    <div *ngIf="myFormGroup.controls.title.invalid && myFormGroup.controls.title.touched">
+                                        <ngb-alert type="danger" [dismissible]="false"> This field is required</ngb-alert>
+                                    </div>
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <label>Property Status</label>
-                                    <select class="form-control" name="status" [(ngModel)]="selectedTypeAd">
-                                        <option *ngFor="let type of typeAds" [value]="type">{{type}}</option>
-                                        
+                                    <label>Property For :</label>
+                                    <select class="form-control" name="status" formControlName="typeAd">
+                                        <option value="">--Select property for--</option>
+                                        <option *ngFor="let type of typeAds" value="{{type}}">{{type}}</option> 
                                     </select>
+                                    <div *ngIf="myFormGroup.controls.typeAd.invalid && myFormGroup.controls.typeAd.touched">
+                                        <ngb-alert type="danger" [dismissible]="false"> This field is required</ngb-alert>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <label>Property Type</label>
-                                    <select class="form-control" name="type" [(ngModel)]="selectedType">
-                                        <option *ngFor="let type of types" [value]="type">{{type}}</option>
+                                    <select class="form-control" name="type" formControlName="type">
+                                        <option value="">--Select property type--</option>
+                                        <option *ngFor="let type of types" value="{{type}}">{{type}}</option>
                                     </select>
+                                    <div *ngIf="myFormGroup.controls.type.invalid && myFormGroup.controls.type.touched">
+                                        <ngb-alert type="danger" [dismissible]="false"> This field is required</ngb-alert>
+                                    </div>
                                 </div>
+                              
                                 <div class="col-md-6 form-group">
                                     <label>Property Price</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">$</span>
                                         </div>
-                                        <input type="text" class="form-control" name="price"
-                                            placeholder="Property Price"[(ngModel)]="price" >
+                                        <input type="text" class="form-control" name="price" placeholder="Property Price" formControlName="price">
+                                        <div *ngIf="myFormGroup.controls.price.invalid && myFormGroup.controls.price.touched">
+                                            <ngb-alert type="danger" [dismissible]="false"> This field is required</ngb-alert>
+                                        </div>
                                     </div>
                                 </div>
                                 
                                 <div class="col-md-6 form-group">
                                     <label>Property Space (Sqft)</label>
-                                    <input type="text" class="form-control" placeholder="Property Space (Sqft)"
-                                        name="space" [(ngModel)]="sqrft">
+                                    <input type="text" class="form-control" placeholder="Property Space (Sqft)" name="size" formControlName="size">
+                                    <div *ngIf="myFormGroup.controls.size.invalid && myFormGroup.controls.size.touched">
+                                        <ngb-alert type="danger" [dismissible]="false"> This field is required</ngb-alert>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label>Rooms</label>
+                                    <input type="text" class="form-control" placeholder="Property rooms" name="rooms" formControlName="rooms" min="0">
+                                    <div *ngIf="myFormGroup.controls.rooms.invalid && myFormGroup.controls.rooms.touched">
+                                        <ngb-alert type="danger" [dismissible]="false"> This field is required</ngb-alert>
+                                    </div>
                                 </div>
                                 <div class="col-md-12 form-group">
                                     <label>Adverisement Description</label>
                                     <textarea name="content" rows="4" class="form-control"
-                                        placeholder="Property Description" [(ngModel)]="content" >
+                                        placeholder="Property Description" formControlName="description">
                                     </textarea>
                                 </div>
+                                
                             </div>
                         </ng-template>
                     </li>
@@ -60,59 +85,67 @@
                             <div class="form-group">
                                 <label>Property Gallery</label>
 
-                                <ngx-dropzone class="custom-dropzone dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
+                                <ngx-dropzone class="custom-dropzone dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)" #myDropZone [formControl]="myDropZoneControl" ngDefaultControl>
                                     <div class="dropzone-msg dz-message needsclick">
                                         <i class="fas fa-cloud-upload-alt"></i>
-                                        <ngx-dropzone-label class="dropzone-msg-title">Drop files here or click to
-                                            upload.</ngx-dropzone-label>
-                                        <span class="dropzone-msg-desc">This is just a demo dropzone. Selected files are
-                                            <strong>not</strong> actually uploaded.</span>
+                                        <ngx-dropzone-label class="dropzone-msg-title">Drop files here or click to upload.</ngx-dropzone-label>
+                                        <span class="dropzone-msg-desc">You can upload up to 5 images for your listing</span>
                                     </div>
                                     <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files | slice:0:5" [file]="f" [removable]="true" (removed)="onRemove(f)">
                                         <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
                                     </ngx-dropzone-image-preview>
+
+                                    <div *ngIf="myFormGroup.controls.myDropZone.invalid && myFormGroup.controls.myDropZone.touched">
+                                        <ngb-alert type="danger" [dismissible]="false"> You need to upload at least one photo for your advertisement</ngb-alert>
+                                    </div>
+                                    <div *ngIf="myDropZoneControl.invalid && myDropZoneControl.touched">
+                                        <ngb-alert type="danger" [dismissible]="false"> You need to upload at least one photo for your advertisement</ngb-alert>
+                                    </div>
                                 </ngx-dropzone>
+
                                 <span class="acr-form-notice">*You can upload up to 5 images for your listing</span>
-                                <span class="acr-form-notice">*Listing images should be atleast 620x480 in
-                                    dimensions</span>
+                                <span class="acr-form-notice">*Listing images should be atleast 620x480 in dimensions</span>
+                                <!--
+                                <span> myDropZoneControl.invalid : {{ myDropZoneControl.invalid }}</span><br>
+                                <span> myDropZoneControl.errors | json  :{{ myDropZoneControl.errors | json }}</span>
+                                -->
+                                <!-- if the ngx-drop zoen is touched and invalid-->
+                               <!--
+                                <input type="file" class="form-control" placeholder="Attachment" name="fname" value=""
+                                    [(ngModel)]="file" [ngModelOptions]="{standalone: true}">-->
                             </div>
                         </ng-template>
                     </li>
                     <li [ngbNavItem]="3">
                         <a ngbNavLink><span>03</span> Location</a>
                         <ng-template ngbNavContent>
-                            <div class="form-group submit-listing-map">
-                                <div id="leafletmap"></div>
-                            </div>
-                            <div class="form-group">
-                                <span class="acr-form-notice">Drag and drop the marker to identify your <b>Latitude</b>
-                                    and <b>Longitude</b> </span>
-                            </div>
+                           
                             <div class="row">
+                                
                                 <div class="col-md-12 form-group">
-                                    <label>Full Address</label>
-                                    <input type="text" name="address" class="form-control" placeholder="Full Address"
-                                        value="">
-                                </div>
-                                <div class="col-md-12 form-group">
-                                    <label>Region</label>
-                                    <select class="form-control" name="region">
-                                        <option value="Connecticut">Connecticut</option>
-                                        <option value="Washington DC">Washington DC</option>
-                                        <option value="Los Angelas">Los Angelas</option>
-                                        <option value="Missouri">Missouri</option>
+                                    <label for="regionSelect">Region</label>
+                                    <select class="form-control" id="regionSelect" name="region" formControlName="region" (change)="onRegionChange()">
+                                      <option value="">--Select Region--</option>
+                                      <option value="tunis">Tunis</option>
+                                      <option value="sousse">Sousse</option>
+                                      <option value="sfax">Sfax</option>
                                     </select>
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>Longitude</label>
-                                    <input type="text" name="lng" id="lngVal" class="form-control"
-                                        placeholder="Longitude" value="">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>Latitude</label>
-                                    <input type="text" name="lat" id="latVal" class="form-control"
-                                        placeholder="Latitude" value="">
-                                </div>
+                                    <div *ngIf="myFormGroup.controls.region.invalid && myFormGroup.controls.region.touched">
+                                      <ngb-alert type="danger" [dismissible]="false">This field is required</ngb-alert>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-12 form-group">
+                                    <label for="citySelect">City</label>
+                                    <select class="form-control" id="citySelect" name="ville" formControlName="ville">
+                                      <option value="">--Select City--</option>
+                                      <option *ngFor="let city of filteredCities" [value]="city">{{city}}</option>
+                                    </select>
+                                    <div *ngIf="myFormGroup.controls.ville.invalid && myFormGroup.controls.ville.touched">
+                                      <ngb-alert type="danger" [dismissible]="false">This field is required</ngb-alert>
+                                    </div>
+                                  </div>
+                                  
+                               
                             </div>
                         </ng-template>
                     </li>
@@ -130,62 +163,20 @@
                                 </div>
                             </div>
                         </ng-template>
+                        <button type="submit" class="btn-custom" [disabled]="!myFormGroup.valid" (click)="addAd()">Submit Listing</button>
                     </li>
-                    <li [ngbNavItem]="5">
-                        <a ngbNavLink><span>05</span> Details</a>
-                        <ng-template ngbNavContent>
-                            <div class="row">
-                                <div class="col-md-6 form-group">
-                                    <label>Property ID</label>
-                                    <input type="text" class="form-control" placeholder="Property ID" name="id"
-                                        value="">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>Beds</label>
-                                    <input type="text" class="form-control" placeholder="Number of Beds" name="beds"
-                                        value="">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>Bathrooms</label>
-                                    <input type="text" class="form-control" placeholder="Number of Bathrooms"
-                                        name="baths" value="">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>Condition</label>
-                                    <input type="text" class="form-control" placeholder="Property Condition"
-                                        name="condition" value="">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>Year Built</label>
-                                    <input type="text" class="form-control" placeholder="Property Year Built"
-                                        name="built" value="">
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>Neighborhood</label>
-                                    <input type="text" class="form-control" placeholder="Property Neighborhood"
-                                        name="neighborhood" value="">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="termsAndConditions">
-                                    <label class="custom-control-label" for="termsAndConditions">I Agree to the terms &
-                                        Conditions of Property Submission</label>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn-custom" name="submit">Submit Listing</button>
-                        </ng-template>
-                    </li>
+                    
                 </ul>
+                </form>
             </div>
             
             <!-- Tabs End -->
             <!-- Tab Content Start -->
             
             <div class="col-md-8">
-                <form>
-                    <div [ngbNavOutlet]="nav" class="m-0"></div>
-                </form>
+                
+                <div [ngbNavOutlet]="nav" class="m-0"></div>
+                
             </div>
             
             <!-- Tab Content End -->

@@ -1,0 +1,14 @@
+/*MODAL */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+}
+  
+.title-container {
+flex-grow: 1;
+}
+  
+.price-container {
+display: flex;
+flex-direction: column;
+}

@@ -16,6 +16,7 @@ import { FooterComponent } from './admin/footer/footer.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { ListUserComponent } from './list-user/list-user.component';
 import { AppAdminComponent } from './app-admin/app-admin.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { AppAdminComponent } from './app-admin/app-admin.component';
     BreadcrumbModule,
     NgbModule,
     SlickCarouselModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxDropzoneModule
   ],
   providers: [ ],
   bootstrap: [AppComponent],
