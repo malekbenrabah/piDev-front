@@ -2,8 +2,9 @@
     {
         "id": 1,
         "linkText": "Home",
-        "child": true,
+        "child": false,
         "icon":"home",
+        "link": "/",
         "submenu": [
             {
                 "id": 11,
@@ -36,8 +37,9 @@
     {
         "id": 2,
         "linkText": "Listings",
-        "child": true,
+        "child": false,
         "icon":"list",
+        "link": "/listing-list",
         "submenu": [
             {
                 "id": 41,

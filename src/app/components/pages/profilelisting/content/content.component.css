@@ -18,3 +18,17 @@
 .listing .listing-gallery-wrapper .listing-gallery-delete:hover {
     background-color: #d14343 !important;
 }
+
+/* accordion */
+.accordion-wrapper {
+    position: absolute;
+    top: 0;
+    right: -300px; /* Adjust the value as needed to control the initial position */
+    width: 350px; /* Adjust the width as needed */
+    height: 500px;
+    background-color: #fff; /* Adjust the background color as needed */
+    padding: 10px;
+    box-shadow: 0 0 5px rgba(34,12,43, 0.1); /* Adjust the box shadow as needed */
+    border-radius: 8px;
+
+}

@@ -14,7 +14,7 @@ export class PropertyService {
   baseUrl = 'http://localhost:8089/api/ad';
 
   constructor(private http:HttpClient) {
-    localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZSI6IjUzMDQ2OTgyIiwicm9sZXMiOlt7ImF1dGhvcml0eSI6IlVTRVIifV0sImVtYWlsIjoibW9oYW1lZC5iZW5yYWJhaEBnbWFpbC5jb20iLCJzdWIiOiJtb2hhbWVkIiwiaWF0IjoxNjgzNTE2Nzk3LCJleHAiOjE2ODM1MTgyMzd9.TTJbi0pVnK_A_B2FCE8KSnGpe3QIYweNfjBd7xjXFjA');
+    localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZSI6IjUzMDQ2OTgyIiwicm9sZXMiOlt7ImF1dGhvcml0eSI6IlVTRVIifV0sImVtYWlsIjoibW9oYW1lZC5iZW5yYWJhaEBnbWFpbC5jb20iLCJzdWIiOiJtb2hhbWVkIiwiaWF0IjoxNjgzNzczMzA1LCJleHAiOjE2ODM3NzQ3NDV9.XmfAbqbqaJLvQKTq3IIGjXQGLMrzoTYjPBeVYmxLUGI');
   }
 
 

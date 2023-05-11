@@ -27,7 +27,7 @@
                 </div>
                 <div class="listing-body">
                     <div class="listing-author" >
-                        <img src="assets/img/people/malek.jpg" [alt]="item.username">
+                        <img src="assets/img/agents/us.png" [alt]="item.username">
                         <div class="listing-author-body">
                             <p> <a routerLink="/agent-details/1">{{item.username}}</a> </p>
                             <span class="listing-date">{{ formatDate(item.created_at) }}</span>
@@ -65,7 +65,7 @@
                     </div>
                     <div class="listing-gallery-wrapper">
                         <a routerLink="/listing-details-v1/{{item.id}}" class="btn-custom btn-sm secondary">View Details</a>
-                         <a  placement="top" ngbTooltip="Gallery" class="listing-gallery" (click)="openCarouselModal(item)"> <i class="fas fa-camera" ></i> </a>
+                        <a  placement="top" ngbTooltip="Gallery" class="listing-gallery" (click)="openCarouselModal(item)"> <i class="fas fa-camera" ></i> </a>
                     </div>
                 </div>
 

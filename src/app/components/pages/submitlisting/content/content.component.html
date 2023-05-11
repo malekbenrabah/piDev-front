@@ -153,12 +153,19 @@
                         <a ngbNavLink><span>04</span> Features</a>
                         <ng-template ngbNavContent>
                             <div class="row">
-                                <div class="col-lg-4 col-md-6 col-sm-6" *ngFor="let item of features">
+                                <div class="col-lg-4 col-md-6 col-sm-6">
                                     <label class="acr-listing-feature">
-                                        <input type="checkbox" name="feature{{item.id}}" value="">
+                                        <input type="checkbox" name="garage" >
                                         <i class="acr-feature-check fas fa-check"></i>
-                                        <i class="acr-listing-feature-icon flaticon-{{item.icon}}"></i>
-                                        {{item.title}}
+                                        <i class="acr-listing-feature-icon flaticon-garage"></i>
+                                        Garage
+                                    </label>
+
+                                    <label class="acr-listing-feature">
+                                        <input type="checkbox" name="parking" >
+                                        <i class="acr-feature-check fas fa-check"></i>
+                                        <i class="acr-listing-feature-icon flaticon-air-conditioner"></i>
+                                        Cooling
                                     </label>
                                 </div>
                             </div>

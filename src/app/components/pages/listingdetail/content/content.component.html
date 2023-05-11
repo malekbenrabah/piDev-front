@@ -9,9 +9,11 @@
             </ngx-slick-carousel>
             <div class="acr-listing-details">
                 <div class="acr-listing-section">
+                    <!--
                     <div class="acr-listing-nav">
                         <a  class="btn-custom secondary" (click)="openCarouselModal()">Print Listing</a>
                     </div>
+                    -->
                     <div class="acr-listing-section-body">
                         <div class="acr-listing-section-price">
                             <span>{{listingdetails.typeAd}}</span>
@@ -93,13 +95,20 @@
                             <div class="row">
                                 <div class="col-lg-6 col-md-3 col-sm-3">
                                     <div class="acr-listing-meta-item">
+                                        
                                         <ng-template #t let-fill="fill">
                                             <span class="star" [class.full]="fill === 100">
                                                 <span class="half" [style.width.%]="fill">&hearts;</span>&hearts;
                                             </span>
                                         </ng-template>
+
                 
                                         <ngb-rating [(rate)]="currentRate" [starTemplate]="t" [readonly]="true" [max]="5"></ngb-rating>
+                                         
+                                        
+                                      
+                                               
+                                          
                                     </div>
                                 </div>
                         
@@ -173,7 +182,7 @@
                     <!-- Price Range In the area Start -->
                     <div class="section">
                         <div class="acr-area-price">
-                            <span [style.left.%]="(toNumber(listingdetails.price) * 100) / max - 15">{{listingdetails.price |
+                            <span [style.left.%]="(toNumber(listingdetails.price) * 100) / max -15">{{listingdetails.price |
                                 number:'1.0-0'}}$ </span>
                             <div class="progress">
                                 <div class="progress-bar" role="progressbar"
@@ -389,9 +398,9 @@
                         <div class="sidebar-widget">
                             <h5>Recent Listings</h5>
                             <!-- Listing Start -->
-                            <div class="listing listing-list" *ngFor="let items of listing  | slice:0:4 ">
+                            <div class="listing listing-list" *ngFor="let items of recentAds  | slice:0:4 ">
                                 <div class="listing-thumbnail">
-                                    <a routerLink="/listing-details-v1/{{items.id}}"><img [src]="items.property.photo[1]"
+                                    <a routerLink="/listing-details-v1/{{items.id}}"><img [src]="items.property.photo[0]"
                                             [alt]="items.title"></a>
                                 </div>
                                 <div class="listing-body">

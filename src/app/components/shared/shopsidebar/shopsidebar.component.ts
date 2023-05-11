@@ -8,7 +8,7 @@ import { SharedServiceService } from 'src/app/shared/properties/shared-service.s
 import { HttpErrorResponse } from '@angular/common/http';
 import { User } from 'src/app/shared/model/User';
 import { ActivatedRoute, Router } from '@angular/router';
-declare var $: any;
+
 
 
 
@@ -21,32 +21,13 @@ declare var $: any;
 })
 export class ShopsidebarComponent implements OnInit {
 
-  //@Output() searchResults = new EventEmitter<advertisement[]>();
+ 
 
   constructor( private propertyService:PropertyService, private sharedService: SharedServiceService,private router: ActivatedRoute,private route: Router) {
    
   }
 
-  /* p range 1
-  priceRange = 50;
 
-  onPriceRangeChange(value: string) {
-    this.priceRange = parseInt(value, 10);
-    console.log(`Price range changed to ${this.priceRange}`);
-  }*/
-
-  minP = 0;
-  maxP = 10000;
-
-onMinPriceChange(value: string) {
-  this.minPrice = parseInt(value, 10);
-  console.log(`Minimum price changed to ${this.minPrice}`);
-}
-
-onMaxPriceChange(value: string) {
-  this.maxPrice = parseInt(value, 10);
-  console.log(`Maximum price changed to ${this.maxPrice}`);
-}
 
   //public listing = listing;
   public listing:advertisement[];
@@ -69,9 +50,13 @@ onMaxPriceChange(value: string) {
       console.log(this.status,'status');
       console.log(this.type,'type');
       console.log(Number(this.rooms),'rooms');
+      console.log(Number(this.minPrice), 'minPrice');
+      console.log(Number(this.maxPrice),'MaxPrice');
+      console.log(Number(this.maxSize),' MaxSize');
+      console.log(Number(this.maxSize),' minSize');
       this.propertyService.searchNotScrapedAds(this.status, this.type, this.location, this.ville,Number(this.rooms),
-      this.parking, this.garage, this.maxPrice, this.minPrice,
-      this.minSize).subscribe((res:advertisement[])=>{
+      this.parking, this.garage, Number(this.maxPrice), Number(this.minPrice),
+      Number(this.minSize),Number(this.maxSize) ).subscribe((res:advertisement[])=>{
         this.result=res;
         console.log(this.result, 'result search from shopsidebar');
         //this.searchResults.emit(res); // emit the search results
@@ -83,15 +68,7 @@ onMaxPriceChange(value: string) {
     
 
 
-    // price range 1 :
-    /*
-    const slider = document.querySelector('input[type="range"]');
-    if (slider) {
-      slider.addEventListener('mousemove', (event: MouseEvent) => {
-        const value = (<HTMLInputElement>event.target).value;
-        (<HTMLInputElement>event.target).setAttribute('title', value);
-      });
-    }*/
+   
 
   }
 
@@ -222,14 +199,10 @@ onMaxPriceChange(value: string) {
   garage?:boolean;
   ville?: string;
   parking?: boolean;
-  maxPrice?: number;
-  minPrice?: number;
-  minSize?: number;
-  maxSize?: number;
-  
-
-  
-
+  maxPrice?: string;
+  minPrice?: string;
+  minSize?: string;
+  maxSize?: string;
   
 
   result:advertisement[];
@@ -246,9 +219,13 @@ onMaxPriceChange(value: string) {
       console.log(this.status,'status');
       console.log(this.type,'type');
       console.log(Number(this.rooms),'rooms');
+      console.log(Number(this.minPrice),'minPrice');
+      console.log(Number(this.maxPrice),'MaxPrice');
+      console.log(Number(this.maxSize),'maxSize');
+      console.log(Number(this.maxSize),'minSize');
       this.propertyService.searchNotScrapedAds(this.status, this.type, this.location, this.ville,Number(this.rooms),
-      this.parking, this.garage, this.maxPrice, this.minPrice,
-      this.minSize).subscribe((res:advertisement[])=>{
+      this.parking, this.garage, Number(this.maxPrice), Number(this.minPrice),
+      Number(this.minSize), Number(this.maxSize)).subscribe((res:advertisement[])=>{
         this.result=res;
         console.log(this.result, 'result search from shopsidebar');
         //this.searchResults.emit(res); // emit the search results
@@ -260,9 +237,13 @@ onMaxPriceChange(value: string) {
       console.log(this.status,'status');
       console.log(this.type,'type');
       console.log(Number(this.rooms),'rooms');
+      console.log(Number(this.minPrice), 'minPrice');
+      console.log(Number(this.maxPrice),'MaxPrice');
+      console.log(Number(this.maxSize),' MaxSize');
+      console.log(Number(this.maxSize),' minSize');
       this.propertyService.searchNotScrapedAds(this.status, this.type, this.location, this.ville,Number(this.rooms),
-      this.parking, this.garage, this.maxPrice, this.minPrice,
-      this.minSize).subscribe((res:advertisement[])=>{
+      this.parking, this.garage, Number(this.maxPrice), Number(this.minPrice),
+      Number(this.minSize),Number( this.maxSize)).subscribe((res:advertisement[])=>{
         this.result=res;
         console.log(this.result, 'result search from shopsidebar');
         //this.searchResults.emit(res); // emit the search results
@@ -299,8 +280,8 @@ onMaxPriceChange(value: string) {
   
 
     this.propertyService.searchScrapedADS(this.status, this.type, this.location, this.ville,Number(this.rooms),
-    this.parking, this.garage, this.maxPrice, this.minPrice,
-    this.minSize).subscribe((res:advertisement[])=>{
+    this.parking, this.garage, Number(this.maxPrice), Number(this.minPrice),
+    Number(this.minSize),Number(this.maxSize)).subscribe((res:advertisement[])=>{
       this.scrapedAds=res;
       console.log(this.scrapedAds, ' Scraped ADS result search from shopsidebar Scraped');
       console.log(this.userId, ' UserId result search from shopsidebar Scraped');
@@ -323,26 +304,7 @@ onMaxPriceChange(value: string) {
 
   }
 
- // price range : 
-
-  ngAfterViewInit() {
-    $("#slider-range").slider({
-      range: true,
-      min: 130,
-      max: 500,
-      values: [130, 250],
-      slide: (event, ui) => {
-        $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
-      }
-    });
-
-    $("#amount").val(
-      "$" +
-        $("#slider-range").slider("values", 0) +
-        " - $" +
-        $("#slider-range").slider("values", 1)
-    );
-  }
+ 
 
 
 

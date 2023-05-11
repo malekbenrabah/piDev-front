@@ -7,9 +7,11 @@ import { Router } from '@angular/router';
 import { NgbModal,NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Type } from 'src/app/shared/model/property';
-import { FormBuilder, FormGroup, Validators ,FormControl} from '@angular/forms';
 import { Observable, forkJoin, timer } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { FormControl, NgModel, Validators } from '@angular/forms';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 
 
@@ -17,13 +19,27 @@ import { map, switchMap } from 'rxjs/operators';
 @Component({
   selector: 'app-content',
   templateUrl: './content.component.html',
-  styleUrls: ['./content.component.css']
+  styleUrls: ['./content.component.css'],
+  animations: [
+    trigger('accordionAnimation', [
+      state('closed', style({
+        right: '-300px', 
+        opacity: 0,
+      })),
+      state('open', style({
+        right: '0',
+        opacity: 1,
+      })),
+      transition('closed <=> open', animate('300ms ease-in-out')),
+    ]),
+  ]
 })
 export class ContentComponent implements OnInit {
 
   @ViewChild('confirmationModal') confirmationModal: ElementRef;
   @ViewChild('updateModal') updateModal:ElementRef;
-  constructor(private propService:PropertyService,private router: Router, private ngbModal:NgbModal, private http:HttpClient) {}
+  //@ViewChild('priceField', { static: false }) priceField!: ElementRef<HTMLInputElement>;
+  constructor(private propService:PropertyService,private router: Router, private ngbModal:NgbModal, private http:HttpClient, private sanitizer: DomSanitizer) {}
 
   public isAuthenticated = true;
   public userAds:advertisement[];
@@ -92,6 +108,10 @@ export class ContentComponent implements OnInit {
 		this.files.splice(this.files.indexOf(event), 1);
   }
 
+  //accrodion
+
+  isAccordionOpen = false;
+
 
   
 delete(){   
@@ -127,19 +147,128 @@ delete(){
     this.id=id;
     this.ngbModal.open(content);
   }
+
+  // validations : 
+
+
+  priceEmpty: boolean = false;
+  priceInvalidNumber: boolean = false;
+
+  
+
+  validatePriceInput(value: string) {
+    this.price = value.replace(/\D/g, ''); // Remove non-numeric characters and update this.price
+    
+    // Reset validation state
+    this.priceEmpty = false;
+    this.priceInvalidNumber = false;
+  
+    // Check for empty value
+    if (this.price.trim().length === 0) {
+      this.priceEmpty = true;
+    } else {
+      const pattern = /^\d+$/; // Regular expression to match only numbers
+      if (!pattern.test(this.price)) {
+        this.priceInvalidNumber = true;
+      }
+    }
+  
+    console.log(this.priceEmpty , 'price Empty');
+    console.log(this.priceInvalidNumber , 'price Invalid');
+  }
+
+  onKeyDown(event: KeyboardEvent) {
+    // Allow only numeric values and specific key codes
+    const allowedKeyCodes = [8, 9, 13, 27, 46]; // Backspace, Tab, Enter, Escape, Delete
+    if (event.keyCode !== undefined && (event.ctrlKey || event.altKey ||
+        (event.keyCode < 48 || event.keyCode > 57) &&
+        (event.keyCode < 96 || event.keyCode > 105) &&
+        !allowedKeyCodes.includes(event.keyCode))) {
+      event.preventDefault();
+      this.priceInvalidNumber = true;
+      this.priceEmpty=false;
+  } else {
+    this.priceInvalidNumber = false;
+  }
+  }
+  
+  isPriceInvalid(): boolean {
+    return this.priceEmpty || this.priceInvalidNumber;
+  }
+  
+  isPriceEmpty(): boolean {
+    return this.priceEmpty;
+  }
+  
+  isPriceInvalidNumber(): boolean {
+    return this.priceInvalidNumber;
+  }
+
+  sizeEmpty:boolean=false;
+  sizeInvalidNumber:boolean=false;
   
   
+  validateSizeInput(value: string) {
+    this.size = value.replace(/\D/g, ''); // Remove non-numeric characters and update this.price
+    
+    // Reset validation state
+    this.sizeEmpty = false;
+    this.sizeInvalidNumber = false;
+  
+    // Check for empty value
+    if (this.size.trim().length === 0) {
+      this.sizeEmpty = true;
+    } else {
+      const pattern = /^\d+$/; // Regular expression to match only numbers
+      if (!pattern.test(this.size)) {
+        this.sizeInvalidNumber = true;
+      }
+    }
+  
+    console.log(this.priceEmpty , 'price Empty');
+    console.log(this.priceInvalidNumber , 'price Invalid');
+  }
+
+  onKeyDownSize(event: KeyboardEvent) {
+    // Allow only numeric values and specific key codes
+    const allowedKeyCodes = [8, 9, 13, 27, 46]; // Backspace, Tab, Enter, Escape, Delete
+    if (event.keyCode !== undefined && (event.ctrlKey || event.altKey ||
+        (event.keyCode < 48 || event.keyCode > 57) &&
+        (event.keyCode < 96 || event.keyCode > 105) &&
+        !allowedKeyCodes.includes(event.keyCode))) {
+      event.preventDefault();
+      this.sizeInvalidNumber = true;
+      this.sizeEmpty=false;
+    } else {
+      this.sizeInvalidNumber = false;
+    }
+  }
+  
+  isSizeInvalid(): boolean {
+    return this.sizeEmpty || this.sizeInvalidNumber;
+  }
+  
+  isSizeEmpty(): boolean {
+    return this.sizeEmpty;
+  }
+  
+  isSizeInvalidNumber(): boolean {
+    return this.sizeInvalidNumber;
+  }
+
+
+
+
+
+  
+  images:string[]=[];
+  imageFiles: File[] = [];
+  safeImageUrls: SafeResourceUrl[] = [];
+
   
   openModalUpdate(content:any,id:number){
     this.id=id;
-    /*
-    const options: NgbModalOptions = {
-      size: 'lg' 
-    };*/
-
-    //this.ngbModal.open(content);
-
-    
+  
     
     this.test$ = this.propService.getAdByiD(this.id);
     this.test$.subscribe((res: advertisement) => {
@@ -156,18 +285,28 @@ delete(){
       this.description = this.test.description;
       this.rooms = this.test.property.rooms;
       this.garage = this.test.property.garage;
-      this.parking = this.test.property.parking
+      this.parking = this.test.property.parking;
+      this.images=this.test.property.photo;
       console.log("test get ad by ID: " + JSON.stringify(this.test));
-    });
-    this.ngbModal.open(this.updateModal,{ size: 'lg', centered: true }) ;
-   
-    /*
-    this.propService.getAdByiD(this.id).subscribe((res:advertisement)=>
-      {this.test=res;console.log("test get ad by ID  : "+JSON.stringify(this.test))
-    });*/
+    
+  });
+
+  this.ngbModal.open(this.updateModal,{ size: 'lg', centered: true }) ;
+
+}
+
+fetchImageFile(imagePath): Observable<Blob> {
+  return this.http.get(imagePath, { responseType: 'blob' });
+}
+  
+
+  
+  
 
 
-  }
+
+
+  
 
   //update params : 
   title:string="";
@@ -265,7 +404,7 @@ delete(){
         
   
         // Navigate to the '/profile-listings' route
-        this.router.navigate(['/profile-listings']);
+        //this.router.navigate(['/profile-listings']);
       },
       error => console.log(error, ' error AddAD')
     );

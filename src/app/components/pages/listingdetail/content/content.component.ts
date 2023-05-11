@@ -46,6 +46,7 @@ export class ContentComponent implements OnInit, AfterContentInit {
   public listingdetails :advertisement;
 
    id=Number(this.route.snapshot.params.id);
+   recentAds:advertisement[];
   ngOnInit(): void {
     /*
     this.propertiesService.getProperties().subscribe(res=>{console.log(res); this.listing=res});
@@ -78,7 +79,11 @@ export class ContentComponent implements OnInit, AfterContentInit {
     });
     */
     
-
+    this.propertyService.recentListings().subscribe((res:advertisement[])=>{
+      this.recentAds=res,
+      console.log(this.recentAds,'all listings by recent ');
+    
+    });
 
     this.propertyService.getAdByiD(Number(this.route.snapshot.params.id)).subscribe(ads => { 
       this.listingdetails = ads; 

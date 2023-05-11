@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 
 import category from '../../../../data/category.json';
 import agents from '../../../../data/agents.json';
@@ -31,7 +31,7 @@ export class ContentComponent implements OnInit {
 
   pageSize:number=6;
   //public listing = listing;
-  public listing:advertisement[];
+  public listing:advertisement[]=[];
   public category = category;
   public agents = agents;
   public getAuthor(items: string | any[]) {
@@ -53,17 +53,29 @@ export class ContentComponent implements OnInit {
   User:User;
   premium:boolean;
   user:User;
+  favoriteAds:advertisement[];
+  test:boolean=true;
+  isFavoriteArray: boolean[] = []; 
   ngOnInit(): void {
    
     
     this.propertyService.recentListings().subscribe((res:advertisement[])=>{
       this.listing=res,
       console.log(this.listing,'all listings by recent ');
+    
     });
     
     this.sharedService.searchResults$.subscribe(results => {
       this.searchResults = results;
       console.log(this.searchResults,' getting the result from shopsidebar : LIST');
+
+      console.log('from LIST IS FAVADS');
+      this.isFavoriteArray=[];
+      this.searchResults.forEach((item) => {
+        const isFavorite = this.isFavorite(item);
+        this.isFavoriteArray.push(isFavorite);
+      });
+      console.log(this.isFavoriteArray, 'isFavoriteArray from SearchResults : LIST');
     });
 
     // getting scraped ADS 
@@ -79,18 +91,118 @@ export class ContentComponent implements OnInit {
       console.log(data.user , 'getting scraped ads from shopqisebar : LIST');
       this.searchResults=data.advertisements;
       this.user=data.user;
+     
+
     });
 
-    
+    //Favorites : 
 
+    // getting the user
+    this.propertyService.getUserByToken().subscribe((user: User) => {
+      this.User = user;
+      console.log(this.User.id,' User id, Test UserByToken listingList FAV');
+      console.log(this.User,' UserTest ,UserByToken listingList FAV');
+
+
+      //getting the user's fav ads: 
+
+      this.propertyService.consultFavorites().subscribe((res:advertisement[])=>{
+        this.favoriteAds=res;
+        console.log(this.favoriteAds,'USERs FAVORITE ADS');
+
+        //FAV NO SEARCH :
+       
+        this.listing.forEach((item) => {
+          const isFavorite = this.isFavorite(item);
+          this.isFavoriteArray.push(isFavorite);
+        });
+        
+      });
+      console.log(this.isFavoriteArray, 'isFavoriteArray from Listing NO SEARCH');
+     
+    
+    });
+
+ 
 
   }
 
+  //fav 
+  isFavorite(advertisement: advertisement): boolean {
+    if (!this.favoriteAds) {
+      return false;
+    }
+
+    const favoriteAd = this.favoriteAds.find((fav) => fav.id === advertisement.id);
+    return !!favoriteAd;
+  }
+
+
+  //remove FAV :
+  RemoveFavorite(id:number){
+    console.log("remove favorite");
+    this.propertyService.deleteFavorite(id).subscribe(res=>{
+      console.log(res ,'remove FAV');
+      // removing the deleted favorite from the favoriteAds array
+      const index = this.favoriteAds.findIndex(ad => ad.id === id);
+      if (index !== -1) {
+        this.favoriteAds.splice(index, 1);
+      }
+
+      // recalculating isFavoriteArray based on the updated favoriteAds array
+      this.isFavoriteArray = this.listing.map(item => this.isFavorite(item));
+
+      console.log('hello from here DELETEFAV : serachResults');
+      if(this.searchResults){
+        this.isFavoriteArray=[];
+        this.isFavoriteArray = this.searchResults.map(item => this.isFavorite(item));
+        console.log(this.isFavoriteArray,' new isFavoriteArray SEARCH');
+      }
+    });
+   
+  }
+
+ 
   addFavorite(id:number){
     console.log('adding to favorite');
+    // getting the user
+    this.propertyService.getUserByToken().subscribe((user: User) => {
+      this.User = user;
+      console.log(this.User.id,' User id, Test UserByToken listingList FAV');
+      console.log(this.User,' UserTest ,UserByToken listingList FAV');
+
+    },
+    (error: HttpErrorResponse) => {
+      console.log(error);
+      if (error.status === 401) {
+        this.router.navigate(['/login']);
+      }
+    });
+
+
     this.propertyService.addToFavorite(id).subscribe((res)=>{
       console.log('favorite');
+      // fetching the new added favorite and update favoriteAds array
+      this.propertyService.getAdByiD(id).subscribe((favorite: advertisement) => {
+        // Add the newly added favorite to the favoriteAds array
+        this.favoriteAds.push(favorite);
 
+        
+        // Recalculate isFavoriteArray based on the updated favoriteAds array NO SEARCH
+        this.isFavoriteArray = this.listing.map(item => this.isFavorite(item));
+        console.log('hello from here ADFAV : serachResults');
+        
+        if(this.searchResults){
+          this.isFavoriteArray=[];
+          this.isFavoriteArray = this.searchResults.map(item => this.isFavorite(item));
+          console.log(this.isFavoriteArray,' new isFavoriteArray SEARCH');
+        }
+      },
+      (error: HttpErrorResponse) => {
+        console.log('Failed to fetch the newly added favorite');
+      });
+      
+     
     },
     (error: HttpErrorResponse) => {
       console.log(error);
@@ -98,9 +210,13 @@ export class ContentComponent implements OnInit {
         //this.router.navigate(['/login']);
         this.router.navigateByUrl('/login');
       }
-    }
-    );
+    });
+
+
   }
+
+
+  
 
   formatDate(dateString: string): string {
     const date = new Date(dateString);

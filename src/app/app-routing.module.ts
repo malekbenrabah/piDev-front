@@ -4,6 +4,7 @@ import { HomeComponent } from './admin/home/home.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { ListUserComponent } from './list-user/list-user.component';
 import { AppAdminComponent } from './app-admin/app-admin.component';
+import { AdvertisementComponent } from './admin/advertisement/advertisement.component';
 
 const routes: Routes = [
   // Hompages
@@ -61,9 +62,11 @@ const routes: Routes = [
           
           
         ]
-      }
+      },
+      {path:'ads',component:AdvertisementComponent}
     ]
   }
+
 ];
 
 @NgModule({

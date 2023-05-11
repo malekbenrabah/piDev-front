@@ -18,7 +18,7 @@
                 </div>
                 <div class="listing-body">
                     <div class="listing-author">
-                        <img src="assets/img/agents/1.jpg" [alt]="item.username">
+                        <img src="assets/img/agents/us.png" [alt]="item.username">
                         <div class="listing-author-body">
                             <p> <a routerLink="/agent-details/{{item.id}}">{{item.username}}</a> </p>
                             <span class="listing-date">{{ formatDate(item.created_at) }}</span>
@@ -59,11 +59,47 @@
                     <div class="listing-gallery-wrapper">
                         <a routerLink="/listing-details-v1/{{item.id}}" class="btn-custom btn-sm secondary">View
                             Details</a>
-                        <a routerLink="/" placement="top" ngbTooltip="Gallery" class="listing-gallery"> <i
-                                class="fas fa-camera"></i> </a>
+                            <a  placement="top" ngbTooltip="Gallery" class="listing-gallery" (click)="openCarouselModal(item)"> <i class="fas fa-camera" ></i> </a>
+
                     </div>
                 </div>
             </div>
+
+            <!--CAROUSEL GALLERY-->
+            <ng-template #carouselModalContent let-modal>
+                <div class="modal-header">
+
+                    <div class="title-container">
+                        <span>{{selectedListing?.typeAd}}</span>
+                        <h3>${{selectedListing?.price | number:'1.2-2'}}</h3>
+                    </div>
+                    <div class="price-container">
+                        <div class="acr-listing-icons">
+                            <div class="acr-listing-icon">
+                                <i class="flaticon-home-1"></i>
+                                <span>Rooms</span>
+                                <span class="acr-listing-icon-value">{{selectedListing?.property.rooms}}</span>
+                            </div>
+                    
+                            <div class="acr-listing-icon">
+                                <i class="flaticon-ruler"></i>
+                                <span>Sqft</span>
+                                <span class="acr-listing-icon-value">{{selectedListing?.property.size | number:'1.2-2'}} m²</span>
+                            </div>
+                        </div>
+                    </div>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                <ngb-carousel [showNavigationArrows]="true" [showNavigationIndicators]="true" fullscreen>
+                    <ng-template ngbSlide *ngFor="let image of selectedListing?.property.photo">
+                    <img [src]="image" alt="Carousel Image">
+                    </ng-template>
+                </ngb-carousel>
+                </div>
+            </ng-template>
         </div>
         <!-- Listing End -->
     </div>

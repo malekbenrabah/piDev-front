@@ -24,27 +24,27 @@ export class CategoriesComponent implements OnInit {
     let title='';
     switch(type) {
       case Type.House:
-        image = 'assets/img/categories/1.jpg'; 
+        image = 'assets/img/categories/hoome.jpg'; 
         icon = 'house';
         title = Type.House
         break;
       case Type.Appartment:
-        image = 'assets/img/categories/2.jpg';
+        image = 'assets/img/categories/appartmentt.jpg';
         icon = 'apartment';
         title=Type.Appartment
         break;
       case Type.Villa:
-        image = 'assets/img/categories/3.jpg';
+        image = 'assets/img/categories/villa.jpg';
         icon = 'villa';
         title=Type.Villa
         break;
       case Type.Land:
-        image = 'assets/img/categories/4.jpg';
+        image = 'assets/img/categories/land.jpg';
         icon = 'location';
         title=Type.Land;
         break;
       case Type.Office:
-        image = 'assets/img/categories/5.jpg';
+        image = 'assets/img/categories/office.jpg';
         icon = 'company-1';
         title=Type.Office;
         break;

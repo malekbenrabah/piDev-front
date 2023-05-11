@@ -17,6 +17,7 @@ import { AddUserComponent } from './add-user/add-user.component';
 import { ListUserComponent } from './list-user/list-user.component';
 import { AppAdminComponent } from './app-admin/app-admin.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { AdvertisementComponent } from './admin/advertisement/advertisement.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
     FooterComponent,
     AddUserComponent,
     ListUserComponent,
-    AppAdminComponent
+    AppAdminComponent,
+    AdvertisementComponent
   ],
   imports: [
     BrowserModule,

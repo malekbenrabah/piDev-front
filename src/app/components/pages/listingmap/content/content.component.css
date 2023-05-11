@@ -1,0 +1,53 @@
+.form-control-searchInput{
+    outline: none!important;
+    width: 100%!important;
+    position: relative!important;
+    background-color:#fff!important ;
+    padding: 15px!important;
+    border-radius: 8px!important;
+    box-shadow: 0 2px 9px 0px rgba(34,12,43, 0.1)!important;
+    display: flex!important;
+    align-items: center!important;
+    justify-content: space-between!important;
+    cursor: pointer!important;
+    transition: .3s!important;
+    z-index: 1!important;
+    height: 58px!important;
+    border: 0!important;
+  }
+  
+  .form-control-searchInput::placeholder {
+    padding: 0;
+    margin-right: 10px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    color: #101737;
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 15px;
+    pointer-events: none;
+  }
+  
+  
+/*MODAL */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+}
+  
+.title-container {
+flex-grow: 1;
+}
+  
+.price-container {
+display: flex;
+flex-direction: column;
+}
+
+/* FAV*/
+.red {
+    background-color:#FF0F59!important;
+    color: white!important;
+}  

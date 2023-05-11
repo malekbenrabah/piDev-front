@@ -40,20 +40,7 @@
                         </ng-select2>
                     </div>
 
-                    <div class="container">
-                        <div class="row">
-                            <div class="price-range-slider">
-                                <p class="range-value">
-                                  <input type="text" id="amount" readonly>
-                                </p>
-                                <div id="slider-range" class="range-bar"></div>
-                            </div>
-                        </div>
-                       
-                    </div>
-
-
-                    
+                
                     <!--
                     <div class="acr-custom-select form-group">
                         <label>Price Range: </label>
@@ -81,12 +68,10 @@
                         
                         <div class="price-range-selects">
                           <div class="acr-custom-select">
-                            <label for="minPrice">Min Price:</label>
-                            <ng-select2 [data]="pricerangelist" [options]="options" [(ngModel)]="minPrice" name="minPrice"></ng-select2>
+                            <input type="text" class="form-control-searchInput" placeholder="Min Price" [(ngModel)]="minPrice" name="maxPrice">
                           </div>
                           <div class="acr-custom-select">
-                            <label for="maxPrice">Max Price:</label>
-                            <ng-select2 [data]="pricerangelist" [options]="options" [(ngModel)]="maxPrice" name="maxPrice"></ng-select2>
+                            <input type="text" class="form-control-searchInput" placeholder="Max Price" [(ngModel)]="maxPrice" name="minPrice">
                           </div>
                         </div>
                     </div>
@@ -95,12 +80,10 @@
                         
                         <div class="price-range-selects">
                           <div class="acr-custom-select">
-                            <label for="minPrice">Min Size:</label>
-                            <ng-select2 [data]="pricerangelist" [options]="options" [(ngModel)]="minSize" name="minSize"></ng-select2>
+                            <input type="text" class="form-control-searchInput" placeholder="Min Size" [(ngModel)]="minSize" name="minSize">
                           </div>
                           <div class="acr-custom-select">
-                            <label for="maxPrice">Max Size:</label>
-                            <ng-select2 [data]="pricerangelist" [options]="options" [(ngModel)]="maxSize" name="maxSize"></ng-select2>
+                            <input type="text" class="form-control-searchInput" placeholder="Max Size" [(ngModel)]="maxSize" name="maxSize">
                           </div>
                         </div>
                     </div>

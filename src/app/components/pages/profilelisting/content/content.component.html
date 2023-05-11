@@ -65,16 +65,22 @@
                                                         <div class="col-md-6 form-group">
                                                             <label>Advertisement Tile</label>
                                                            
-                                                            <input type="text" class="form-control" name="title" [(ngModel)]="title" required>
+                                                            <input type="text" class="form-control" name="title" placeholder="Advertisement title" [(ngModel)]="title" required  #titleField="ngModel" [ngClass]="{'is-invalid': titleField.touched && titleField.invalid}" >
+                                                            <div class="invalid-feedback" *ngIf="titleField.touched && titleField.invalid">
+                                                                This field is required
+                                                            </div>
 
                                                             <!--<input type="text" class="form-control" placeholder="{{test.title}}" name="title" [value]="(test$ | async)?.title" [(ngModel)]="title" required>-->
                                                         </div>
                                                         
                                                         <div class="col-md-6 form-group">
                                                             <label>Property For:</label>
-                                                            <select class="form-control" name="status" [(ngModel)]="selectedTypeAd" required>
+                                                            <select class="form-control" name="status" [(ngModel)]="selectedTypeAd" required #typeField="ngModel" [ngClass]="{'is-invalid': typeField.touched && typeField.invalid}">
                                                             <option *ngFor="let adType of typeAds" >{{adType}}</option>
                                                             </select>
+                                                            <div class="invalid-feedback" *ngIf="typeField.touched && typeField.invalid">
+                                                                This field is required
+                                                            </div>
                                                         </div>
                                                         
                                                         <div class="col-md-6">
@@ -86,19 +92,45 @@
                                                         <div class="col-md-6 form-group">
                                                             <label>Property Price</label>
                                                             <div class="input-group">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text">$</span>
-                                                                </div>
-                                                                <input type="text" class="form-control" name="price"
-                                                                    placeholder="Property Price" [(ngModel)]="price" required>
+                                                              <div class="input-group-prepend">
+                                                                <span class="input-group-text">$</span>
+                                                              </div>
+                                                              <input type="text" class="form-control" name="price" placeholder="Property Price"
+                                                                [(ngModel)]="price" required #priceField="ngModel"
+                                                                (input)="validatePriceInput(priceField.value)" (keydown)="onKeyDown($event)"
+                                                                [ngClass]="{'is-invalid': priceField.touched && isPriceInvalid()}">
+                                                              <div class="invalid-feedback" *ngIf="priceField.touched">
+                                                                <ng-container *ngIf="isPriceEmpty()">This field is required</ng-container>
+                                                                <ng-container *ngIf="isPriceInvalidNumber()">Enter a valid number</ng-container>
+                                                              </div>
                                                             </div>
                                                         </div>
+                                                          
                                                         
                                                         <div class="col-md-6 form-group">
                                                             <label>Property Space (Sqft)</label>
                                                             <input type="text" class="form-control" placeholder="Property Space (Sqft)"
-                                                                name="size" [(ngModel)]="size" >
+                                                                name="size" [(ngModel)]="size" required #sizeField="ngModel" 
+                                                                [ngClass]="{'is-invalid': sizeField.touched && sizeField.invalid}"
+                                                                (input)="validateSizeInput(sizeField.value)" (keydown)="onKeyDownSize($event)"
+                                                                [ngClass]="{'is-invalid': sizeField.touched && isSizeInvalid()}">
+                                                            
+                                                                <div class="invalid-feedback" *ngIf="sizeField.touched">
+                                                                    <ng-container *ngIf="isSizeEmpty()">This field is required</ng-container>
+                                                                    <ng-container *ngIf="isSizeInvalidNumber()">Enter a valid number</ng-container>
+                                                                </div>
                                                         </div>
+
+                                                        <div class="col-md-6 form-group">
+                                                            <label>Rooms</label>
+                                                            <input type="number" class="form-control" placeholder="Property rooms"
+                                                                name="rooms" [(ngModel)]="rooms" required #roomsField="ngModel" [ngClass]="{'is-invalid': roomsField.touched && roomsField.invalid}">
+                                                            <div class="invalid-feedback" *ngIf="roomsField.touched && roomsField.invalid">
+                                                                This field is required
+                                                            </div>
+                                                        </div>
+
+
                                                         <div class="col-md-12 form-group">
                                                             <label>Adverisement Description</label>
                                                             <textarea name="content" rows="4" class="form-control"
@@ -115,7 +147,7 @@
                                                     
                                                         <div class="form-group">
                                                             <label>Property Gallery</label>
-                            
+                                                            <!-- old 
                                                             <ngx-dropzone class="custom-dropzone dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)"  >
                                                                 <div class="dropzone-msg dz-message needsclick">
                                                                     <i class="fas fa-cloud-upload-alt"></i>
@@ -127,7 +159,33 @@
                                                                     <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
                                                                 </ngx-dropzone-image-preview>
                                                             </ngx-dropzone>
-                                                        
+                                                            -->
+                                                            <!--
+                                                            <ngx-dropzone class="custom-dropzone dropzone" ngx-dropzone  (removed)="onRemove($event)" >
+                                                                <div class="dropzone-msg dz-message needsclick">
+                                                                  <i class="fas fa-cloud-upload-alt"></i>
+                                                                  <ngx-dropzone-label class="dropzone-msg-title">Drop files here or click to upload.</ngx-dropzone-label>
+                                                                  <span class="dropzone-msg-desc">You can upload up to 5 images for your listing</span>
+                                                                </div>
+                                                                <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let file of imageFiles" [file]="file" [removable]="true">
+                                                
+                                                                  <ngx-dropzone-label>{{file.name}}</ngx-dropzone-label>
+                                                                </ngx-dropzone-image-preview>
+                                                            </ngx-dropzone> -->
+
+                                                            <ngx-dropzone class="custom-dropzone dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
+                                                                <div class="dropzone-msg dz-message needsclick">
+                                                                    <i class="fas fa-cloud-upload-alt"></i>
+                                                                    <ngx-dropzone-label class="dropzone-msg-title">Drop files here or click to upload.</ngx-dropzone-label>
+                                                                    <span class="dropzone-msg-desc">You can upload up to 5 images for your listing</span>
+                                                                </div>
+                                                                <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files | slice:0:5" [file]="f" [removable]="true" (removed)="onRemove(f)">
+                                                                    <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                                                                </ngx-dropzone-image-preview>
+                            
+                                                              
+                                                            </ngx-dropzone>
+                                                              
 
                                                             <span class="acr-form-notice">*You can upload up to 5 images for your listing</span>
                                                             <span class="acr-form-notice">*Listing images should be atleast 620x480 in dimensions</span>
@@ -159,60 +217,11 @@
                                                        
                                                     </div>
                                                 </ng-template>
+                                                <button type="submit" class="btn-custom"  (click)="UpdateAd()">Submit Listing</button>
+
                                             </li>
                                           
-                                            <li [ngbNavItem]="4">
-                                                <a ngbNavLink><span>04</span> Details</a>
-                                                <ng-template ngbNavContent>
-                                                    <div class="row">
-    
-                                                        <div class="col-md-6 form-group">
-                                                            <label>Rooms</label>
-                                                            <input type="text" class="form-control" placeholder="Rooms" name="rooms" [(ngModel)]="rooms" [value]="test.property.rooms">
-                                                        </div>
-                                                        <div class="col-md-6 form-group">
-                                                            <label >Garage</label>
-                                                            <input type="checkbox" checked data-toggle="toggle" [(ngModel)]="garage" name="garage" [value]="test.property.garage">
-
-                                                        </div>
-                                                        <div class="col-md-6 form-group">
-                                                            <label >Parking</label>
-                                                            <input type="checkbox" checked data-toggle="toggle" [(ngModel)]="parking" name="parking" [value]="test.property.parking">
-
-                                                        </div>
-
-                                                        <div class="col-md-6 form-group">
-                                                            <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Tooltip on top">
-                                                                Tooltip on top
-                                                            </button>
-                                                        </div>
-                                                        
-                                                        <div class="col-md-6 form-group">
-                                                            <button type="button" class="btn btn-secondary" data-toggle="popover" title="Popover title" data-content="Some content inside the popover">
-                                                                Click me to see a popover
-                                                            </button>
-                                                        
-                                                        </div>
-                                                        <div class="col-md-6 form-group">
-                                                            <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                                                                Toggle content
-                                                            </button>
-                                                            
-                                                            <div class="collapse" id="collapseExample">
-                                                            <div class="card card-body">
-                                                                This content can be collapsed and expanded
-                                                            </div>
-                                                            </div>
-                                                        </div>
-                                                        
-                                                          
-                                                      
-                                                    
-                                                    </div>
-                                                </ng-template>
-                                                <button type="submit" class="btn-custom" name="submit" (click)="UpdateAd()">Submit Listing</button>
-
-                                            </li>
+                                        
                                         </ul>
                                         
                                     </div>
@@ -276,17 +285,17 @@
                             <div class="listing-author-body">
                                 <span class="listing-date">{{ formatDate(item.created_at) }}</span>
                             </div>
-                        
+                            <!--
                             <div class="dropdown options-dropdown" ngbDropdown>
                                 <a href="javascript:void(0)" ngbDropdownToggle><i class="fas fa-ellipsis-v"></i></a>
                                 <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right">
                                     <ul>
                                         <li> <a routerLink="/"> <i class="flaticon-eye"></i>View</a> </li>
                                         <li> <a routerLink="/"> <i class="flaticon-clipboard"></i>Update</a> </li>
-                                      <!--<li> <button id="deleteLink" (click)="openModal(confirmationModal,item.id)" class="btn btn-link dropdown-item"><i class="flaticon-recycle-bin"></i>Delete</button> </li> -->
                                     </ul>
                                 </div>
                             </div>
+                            -->
                         </div>
                         <h5 class="listing-title"> <a routerLink="/listing-details-v1/{{item.id}}"
                                 [title]="item.title">{{item.title}}</a> </h5>
@@ -311,6 +320,8 @@
                         </div>
                         <div class="listing-gallery-wrapper">
                             <a routerLink="/listing-details-v1/{{item.id}}" class="btn-custom btn-sm secondary">View Details</a>
+
+                           
                             <a  id="updateLink" (click)="openModalUpdate(updateModal,item.id)" placement="top" ngbTooltip="Update" class="listing-gallery"><i class="fas fa-edit"></i></a>
                             <a  id="deleteLink" placement="top" ngbTooltip="Delete" class="listing-gallery-delete"   (click)="openModalDelete(confirmationModal,item.id)"> <i class="fas fa-trash-alt"></i></a>
                         </div>

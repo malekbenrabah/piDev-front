@@ -10,7 +10,8 @@ import { ListingmapComponent } from './listingmap.component';
 
 import { SharedModule } from '../../shared/shared.module';
 import { ContentComponent } from './content/content.component'
-
+import { NgxPaginationModule } from 'ngx-pagination';
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [ListingmapComponent, ContentComponent],
   imports: [
@@ -20,7 +21,9 @@ import { ContentComponent } from './content/content.component'
     NgbModule,
     NgSelect2Module,
     LeafletMarkerClusterModule,
-    LeafletModule
+    LeafletModule,
+    NgxPaginationModule,
+    FormsModule
   ]
 })
 export class ListingmapModule { }
